@@ -1,0 +1,626 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 43px;
+  padding: 70px 0 43px;
+  border-inline: 1px solid var(--frame);
+  scroll-margin-top: 24px;
+}
+
+.lede {
+  max-width: 453.49px;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 31px;
+}
+
+.cards {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex: 1 0 0;
+  flex-direction: column;
+  align-items: center;
+  min-width: 1px;
+  overflow: clip;
+  container-type: inline-size;
+}
+
+/* The illustration is drawn at 419 x 487 and scales down with its card below 1001px. */
+.art {
+  --fit: 1;
+  position: relative;
+  flex: none;
+  width: calc(419px * var(--fit));
+  height: calc(487px * var(--fit));
+  overflow: clip;
+}
+
+.stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 419px;
+  height: 487px;
+  transform: scale(var(--fit));
+  transform-origin: 0 0;
+}
+
+.bg,
+.cover,
+.fill {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 11px;
+  width: 100%;
+  padding: 21px;
+  border-bottom: 1px solid var(--line);
+}
+
+.textFirst {
+  border-right: 1px solid var(--line);
+}
+
+.textMiddle {
+  border-inline: 1px solid var(--line);
+}
+
+.textLast {
+  border-left: 1px solid var(--line);
+}
+
+.text h3 {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.96px;
+  white-space: nowrap;
+}
+
+.text p {
+  color: var(--muted-2);
+  font-size: 16px;
+  line-height: 23.5px;
+}
+
+/* ── 1. The call ── */
+.screen {
+  position: absolute;
+  overflow: clip;
+  border-radius: 11px;
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25);
+}
+
+.host {
+  left: 26.45px;
+  top: 48.08px;
+  width: 290.336px;
+  height: 163.314px;
+}
+
+.client {
+  left: 221.45px;
+  top: 161.08px;
+  width: 173.09px;
+  height: 97.363px;
+}
+
+.controls {
+  position: absolute;
+  left: 58.92px;
+  top: 138.31px;
+  width: 172.35px;
+  height: 19.1px;
+}
+
+.transcript {
+  position: absolute;
+  left: 24.45px;
+  top: 271.08px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 370px;
+}
+
+.voice,
+.quote {
+  padding: 10.93px 14.246px 10.93px 11.25px;
+  border-radius: 14.658px;
+}
+
+.voice {
+  display: flex;
+  align-items: center;
+  gap: 3.11px;
+  height: 57.73px;
+  overflow: clip;
+  background: rgba(0, 0, 0, 0.37);
+}
+
+.voiceMark {
+  position: relative;
+  flex: none;
+  width: 35.871px;
+  height: 35.871px;
+  border-radius: 50%;
+  box-shadow: 0 1.04px 10.141px 8.321px rgba(255, 70, 1, 0.04);
+}
+
+.voiceMark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 -1.04px 3.64px rgba(255, 255, 255, 0.27),
+    inset 0 1.04px 3.64px rgba(255, 255, 255, 0.85);
+}
+
+.bars {
+  display: flex;
+  align-items: center;
+  gap: 8.884px;
+  padding: 4.846px;
+}
+
+.bars i {
+  flex: none;
+  width: 2.82px;
+  border-radius: 3px;
+  background: #ff8653;
+}
+
+/* Each bar rises and falls on its own tempo, like a voice. Paused off screen. */
+@media (prefers-reduced-motion: no-preference) {
+  .bars i {
+    animation: voice var(--wave-duration, 900ms) ease-in-out var(--wave-delay, 0ms) infinite alternate;
+  }
+
+  .bars[data-paused] i {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes voice {
+  0% {
+    transform: scaleY(0.45);
+  }
+  25% {
+    transform: scaleY(1.4);
+  }
+  55% {
+    transform: scaleY(0.7);
+  }
+  80% {
+    transform: scaleY(1.9);
+  }
+  100% {
+    transform: scaleY(0.85);
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+  gap: 8.06px;
+  background: rgba(0, 0, 0, 0.67);
+  color: #fff;
+}
+
+.stamp {
+  padding-top: 5.76px;
+  font-size: 12.667px;
+  line-height: 18.42px;
+  white-space: nowrap;
+}
+
+.stamp b {
+  margin-right: 9px;
+  font-weight: 500;
+}
+
+.quote p:last-child {
+  font-size: 14.97px;
+  line-height: 24px;
+}
+
+/* ── 2. The deal ── */
+.deal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  padding: 19px;
+  overflow: clip;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 8px 26px rgba(52, 64, 31, 0.03);
+  transform: translate(-50%, -50%);
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.dealHead {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.dealLogo {
+  position: relative;
+  flex: none;
+  width: 43.729px;
+  height: 43.729px;
+  overflow: clip;
+  border-radius: 5.778px;
+  background: #4a60f3;
+}
+
+.dealLogo img {
+  position: absolute;
+  left: 4.16px;
+  top: -2.09px;
+  width: 36.402px;
+  height: 49.49px;
+}
+
+.dealName {
+  display: flex;
+  flex-direction: column;
+}
+
+.dealName b {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 19.5px;
+  letter-spacing: -0.2px;
+}
+
+.dealName span {
+  color: #949c8a;
+  font-size: 12px;
+  line-height: 19px;
+}
+
+.dealValue {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-top: 17px;
+  color: #969e8b;
+  font-size: 12px;
+  letter-spacing: 0.12px;
+}
+
+.dealValue b {
+  color: var(--ink-soft);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 43px;
+  letter-spacing: -1.6px;
+}
+
+.stages {
+  display: flex;
+  gap: 9px;
+  padding-top: 19px;
+}
+
+.stages li {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 2px rgba(14, 15, 17, 0.06);
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.1px;
+}
+
+.dealRows {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding-top: 17px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.12px;
+}
+
+.dealRows div,
+.miniRows div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dealRows dt,
+.miniRows dt {
+  color: #929b85;
+}
+
+.dealRows dd,
+.miniRows dd {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+}
+
+.initials {
+  display: inline-grid;
+  place-items: center;
+  width: 18.703px;
+  height: 20px;
+  border-radius: 9.67px;
+  background: #e9eddf;
+  font-family: var(--font-label), system-ui, sans-serif;
+  font-size: 9px;
+  line-height: 1;
+}
+
+/* ── 3. The pipeline ── */
+.column {
+  position: absolute;
+  top: 45.8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 235.467px;
+}
+
+.lead {
+  left: 19.83px;
+}
+
+.sent {
+  left: 274.83px;
+}
+
+.columnHead {
+  display: flex;
+  align-items: center;
+  height: 39.12px;
+  padding: 14.56px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6.13px 19.922px rgba(52, 64, 31, 0.03);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+}
+
+.columnBody {
+  padding: 5px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.slot {
+  display: block;
+  width: 225.467px;
+  height: 164.467px;
+  border-radius: 10.727px;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6.13px 19.922px rgba(52, 64, 31, 0.03);
+}
+
+.leadBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 344.934px;
+}
+
+.dropzone {
+  display: block;
+  height: 164.467px;
+  border: 1px dashed rgba(255, 255, 255, 0.23);
+  border-radius: 10.727px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.mini {
+  display: flex;
+  flex-direction: column;
+  height: 164.467px;
+  padding: 14.558px;
+  overflow: clip;
+  border-radius: 10.727px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.leadCard {
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 6.13px 19.922px rgba(52, 64, 31, 0.03);
+}
+
+.miniHead {
+  display: flex;
+  align-items: center;
+  gap: 6.896px;
+}
+
+.grip {
+  flex: none;
+  width: 22.562px;
+  height: 22.562px;
+  margin: 1.61px -6.446px 0 -6.45px;
+}
+
+.miniName {
+  display: flex;
+  flex-direction: column;
+}
+
+.miniName b {
+  font-size: 9.961px;
+  font-weight: 500;
+  line-height: 14.942px;
+  letter-spacing: -0.1532px;
+}
+
+.miniName span {
+  color: #949c8a;
+  font-size: 9.195px;
+  line-height: 14.558px;
+}
+
+.miniValue {
+  display: flex;
+  align-items: center;
+  gap: 9.961px;
+  padding-top: 6.13px;
+  color: #969e8b;
+  font-size: 9.195px;
+  letter-spacing: 0.0919px;
+}
+
+.miniValue b {
+  color: var(--ink-soft);
+  font-size: 24.519px;
+  font-weight: 500;
+  line-height: 33px;
+  letter-spacing: -1.226px;
+}
+
+.miniRows {
+  display: flex;
+  flex-direction: column;
+  gap: 8.43px;
+  padding-top: 9.195px;
+  font-size: 9.195px;
+  line-height: 12.26px;
+  letter-spacing: 0.0919px;
+}
+
+.miniRows .initials {
+  width: 14.331px;
+  height: 15.325px;
+  border-radius: 7.41px;
+  font-size: 6.896px;
+}
+
+/* The card being moved from Lead to Proposal Sent. */
+.dragged {
+  position: absolute;
+  left: 107.5px;
+  top: 114.87px;
+  width: 225.47px;
+  height: 164.47px;
+  transform: rotate(11.04deg);
+}
+
+.draggedCard {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 6.13px 21.92px rgba(52, 64, 31, 0.25);
+}
+
+/* When the card is first seen, it is carried over from the Lead column. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-revealed] .dragged {
+    animation: carry 1.3s var(--ease-glide) 0.35s backwards;
+  }
+}
+
+@keyframes carry {
+  from {
+    translate: -92px 92px;
+    rotate: -11.04deg;
+  }
+}
+
+@media (max-width: 1000px) {
+  .section {
+    padding-top: 50px;
+  }
+
+  .lede {
+    max-width: none;
+    padding-inline: 24px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .card {
+    flex: none;
+    width: 100%;
+    max-width: 419px;
+  }
+
+  .art {
+    --fit: 0.87;
+  }
+
+  @supports (width: calc(1px * tan(atan2(1cqw, 1px)))) {
+    .art {
+      --fit: min(1, tan(atan2(100cqw, 419px)));
+    }
+  }
+
+  .text {
+    border-inline: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    gap: 32px;
+    padding-block: 48px;
+  }
+
+  .lede {
+    padding-inline: 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .cards {
+    gap: 24px;
+  }
+
+  .text {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 24px 20px;
+  }
+
+  .text h3 {
+    line-height: 1.15;
+    letter-spacing: -0.035em;
+    white-space: normal;
+  }
+
+  .text p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}

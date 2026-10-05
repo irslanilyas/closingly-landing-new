@@ -1,0 +1,67 @@
+/* The centred heading the home sections share: eyebrow, then a two-line title. */
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding-inline: 54px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--muted-3);
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: 1.8px;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 42px;
+  letter-spacing: -1.68px;
+}
+
+.title em {
+  font-weight: 400;
+}
+
+/* A line break the design wants on wide screens only. */
+.wideBreak {
+  display: block;
+}
+
+@media (max-width: 1000px) {
+  .head {
+    padding-inline: 24px;
+  }
+
+  .title {
+    font-size: 34px;
+    line-height: 1;
+    letter-spacing: -1.36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .head {
+    gap: 12px;
+    padding-inline: 20px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 1.4px;
+  }
+
+  .title {
+    font-size: 28px;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  .wideBreak {
+    display: inline;
+  }
+}

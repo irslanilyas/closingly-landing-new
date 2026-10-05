@@ -1,0 +1,35 @@
+{
+  "name": "closingly-landing-new",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && node scripts/build-headers.mjs",
+    "build:preview": "next build && node scripts/build-headers.mjs --preview",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit && tsc -p worker",
+    "images": "node scripts/build-images.mjs",
+    "preview": "wrangler dev",
+    "deploy:preview": "npm run build:preview && wrangler deploy --env preview",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@videojs/mux-data": "^10.0.1",
+    "@videojs/mux-video": "^10.0.1",
+    "@videojs/react": "^10.0.1",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261005.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "typescript": "^5",
+    "wrangler": "^4.147.0"
+  }
+}

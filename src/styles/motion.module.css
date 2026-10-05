@@ -1,0 +1,47 @@
+/* Entrance motion, shared by modules. Each user sets its own --delay. Fill is
+   backwards only, so once played the element is back under its own :hover and
+   :active transforms. */
+.riseIn {
+  animation: rise-in 0.8s var(--ease-out) var(--delay, 0s) backwards;
+}
+
+.riseInSoft {
+  animation: rise-in-soft 0.8s var(--ease-out) var(--delay, 0s) backwards;
+}
+
+.fadeIn {
+  animation: fade-in 0.6s var(--ease-out) var(--delay, 0s) backwards;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes rise-in-soft {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

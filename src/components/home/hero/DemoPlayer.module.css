@@ -1,0 +1,11 @@
+.skin {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  --media-accent-color: var(--brand);
+  --media-accent-text-color: #fff;
+  --media-border-radius: 0;
+  --media-border-color: transparent;
+  --media-font-family: var(--font-sans), system-ui, sans-serif;
+}

@@ -1,0 +1,404 @@
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--bg);
+  animation: media-grow 0.7s var(--ease-out) backwards;
+}
+
+/* The frame opens out from a rounded inset. It is fully opaque from the first
+   paint, so the poster counts as the page's largest paint straight away. */
+@keyframes media-grow {
+  from {
+    clip-path: inset(6% 8% 6% 8% round 28px);
+    transform: translateY(20px);
+  }
+  to {
+    clip-path: inset(0 round 0);
+    transform: none;
+  }
+}
+
+.poster,
+.poster img,
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The loop sits over the still and fades in on its first real frame. */
+.preview {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+}
+
+[data-phase="preview"] .preview,
+[data-phase="opening"] .preview {
+  opacity: 1;
+}
+
+/* ── Preloader: the mark turns into place, then ripples until the loop plays ── */
+.loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition:
+    opacity 0.25s var(--ease-out),
+    visibility 0s linear 0.25s;
+}
+
+/* A soft wash of the page ground lifts the mark off the busy screenshot. */
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(253, 254, 251, 0.82), rgba(253, 254, 251, 0));
+}
+
+.mark,
+.ripple {
+  grid-area: 1 / 1;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+}
+
+.mark {
+  position: relative;
+  box-shadow:
+    0 0 0 8px rgba(255, 70, 1, 0.08),
+    0 16px 36px -14px rgba(255, 70, 1, 0.55);
+  animation: mark-in 0.6s cubic-bezier(0.34, 1.36, 0.64, 1) both;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.ripple {
+  position: relative;
+  border: 1.5px solid rgba(255, 70, 1, 0.45);
+  opacity: 0;
+  animation: ripple 1.3s cubic-bezier(0.2, 0.6, 0.3, 1) 0.45s infinite;
+}
+
+@keyframes mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.55) rotate(-100deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+.frame:not([data-phase="idle"]) .loader,
+[data-mode="still"] .loader {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.frame:not([data-phase="idle"]) .mark {
+  transform: scale(0.88);
+}
+
+.frame:not([data-phase="idle"]) .ripple,
+[data-mode="still"] .ripple {
+  animation: none;
+}
+
+/* ── Click anywhere on the frame to watch the full demo with sound ── */
+.start {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.start[aria-busy="true"] {
+  cursor: progress;
+}
+
+.start:focus-visible {
+  outline: none;
+}
+
+/* The centred call to action: shown when nothing plays on its own. */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 26px 10px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 24px 60px -20px rgba(35, 37, 34, 0.45),
+    0 6px 16px -8px rgba(35, 37, 34, 0.25);
+  color: var(--ink-soft);
+  text-align: left;
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    transform 0.5s var(--ease-out),
+    opacity 0.35s var(--ease-out);
+}
+
+[data-mode="still"] .cta {
+  opacity: 1;
+  transform: none;
+}
+
+[data-mode="still"] .start:hover .cta {
+  transform: scale(1.035);
+}
+
+.start:focus-visible .cta,
+.start:focus-visible .sound {
+  outline: 2px solid var(--ink-soft);
+  outline-offset: 4px;
+}
+
+.ctaIcon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow:
+    inset 0 0 8.5px rgba(165, 45, 0, 0.46),
+    0 10px 24px -8px rgba(255, 70, 1, 0.65);
+}
+
+.ctaIcon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 70, 1, 0.5);
+  animation: pulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes pulse {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.ctaIcon svg {
+  width: 22px;
+  height: 22px;
+  margin-left: 3px;
+  fill: #fff;
+  transition: opacity 0.2s;
+}
+
+.ctaText b {
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+}
+
+.ctaText span {
+  display: block;
+  margin-top: 4px;
+  color: #6b6f66;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.14px;
+}
+
+/* Loading the demo: the play triangle becomes a spinner. */
+.start[aria-busy="true"] .ctaIcon svg {
+  opacity: 0;
+}
+
+.start[aria-busy="true"] .ctaIcon::after {
+  inset: 19px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  opacity: 1;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* The corner chip over the playing loop. */
+.sound {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px 9px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.7),
+    0 12px 30px -12px rgba(35, 37, 34, 0.4);
+  color: var(--ink-soft);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.28px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out),
+    background-color 0.2s;
+}
+
+.sound svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+[data-mode="motion"][data-phase="preview"] .sound,
+[data-mode="motion"][data-phase="opening"] .sound {
+  opacity: 1;
+  transform: none;
+}
+
+.start:hover .sound {
+  background: #fff;
+}
+
+/* The full player fades in over the loop on its first played frame. */
+.player {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+[data-phase="demo"] .player {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .mark,
+  .ripple {
+    width: 52px;
+    height: 52px;
+  }
+
+  .mark {
+    box-shadow:
+      0 0 0 6px rgba(255, 70, 1, 0.08),
+      0 12px 26px -10px rgba(255, 70, 1, 0.55);
+  }
+
+  .loader::before {
+    width: 180px;
+  }
+
+  .cta {
+    gap: 9px;
+    padding: 5px 14px 5px 5px;
+  }
+
+  .ctaIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .ctaIcon svg {
+    width: 15px;
+    height: 15px;
+    margin-left: 2px;
+  }
+
+  .start[aria-busy="true"] .ctaIcon::after {
+    inset: 11px;
+  }
+
+  .ctaText b {
+    font-size: 14px;
+    letter-spacing: -0.28px;
+  }
+
+  .ctaText span {
+    display: none;
+  }
+
+  .sound {
+    left: 10px;
+    bottom: 10px;
+    gap: 6px;
+    padding: 7px 12px 7px 9px;
+    font-size: 12px;
+    letter-spacing: -0.24px;
+  }
+
+  .sound svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Before the script decides, a reduced-motion visitor already sees the play button. */
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    display: none;
+  }
+
+  [data-phase="idle"] .cta {
+    opacity: 1;
+    transform: none;
+  }
+
+  .ctaIcon::after {
+    animation: none;
+  }
+}

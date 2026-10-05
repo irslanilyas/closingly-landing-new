@@ -1,0 +1,102 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 52px;
+  padding: 70px 0 56px;
+  overflow: clip;
+  border: 1px solid var(--line);
+  border-top: 0;
+}
+
+.ticker {
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .track {
+    animation: flow 120s linear infinite;
+  }
+
+  .ticker:focus-within .track,
+  .ticker[data-paused] .track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker {
+    overflow-x: auto;
+  }
+}
+
+@keyframes flow {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.group {
+  display: flex;
+  gap: 31.638px;
+  padding-right: 31.638px;
+}
+
+.group li {
+  display: flex;
+  flex: 0 0 223.087px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8.211px;
+  width: 223.087px;
+}
+
+.portrait {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.group span {
+  color: var(--muted-3);
+  font-size: 16.423px;
+  letter-spacing: 2.1115px;
+  white-space: nowrap;
+}
+
+@media (max-width: 1000px) {
+  .section {
+    gap: 32px;
+    padding: 50px 0 40px;
+  }
+
+  .group {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  .group li {
+    flex-basis: 190px;
+    width: 190px;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding-block: 48px;
+  }
+
+  .group span {
+    font-size: 11px;
+    line-height: 16px;
+    letter-spacing: 1.2px;
+  }
+}

@@ -1,0 +1,182 @@
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 571px;
+  padding: 54px;
+  overflow: clip;
+  isolation: isolate;
+  border-inline: 1px solid var(--line);
+  scroll-margin-top: 24px;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* A soft white wash behind the copy, fading out across the photo. */
+.section::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: 918px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 61.631%);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.intro > p:first-child {
+  color: #000;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 500;
+  line-height: 42px;
+  letter-spacing: -1.68px;
+}
+
+.line {
+  display: block;
+}
+
+.lede {
+  max-width: 484.898px;
+  color: rgba(0, 0, 0, 0.78);
+  font-size: 18px;
+  line-height: 31px;
+}
+
+.perks {
+  display: flex;
+  align-items: flex-start;
+  gap: 35px;
+}
+
+.perks ul {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding-inline: 1px;
+}
+
+.perks li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(0, 0, 0, 0.78);
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+.perks img {
+  flex: none;
+  width: 21.67px;
+  height: 21.67px;
+}
+
+@media (max-width: 1000px) {
+  .section {
+    height: auto;
+    padding: 48px 24px;
+  }
+
+  .bg {
+    object-position: 70%;
+  }
+
+  .section::before {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .title {
+    font-size: 36px;
+    line-height: 1;
+    letter-spacing: -1.44px;
+  }
+
+  .lede {
+    max-width: none;
+  }
+
+  .perks {
+    flex-wrap: wrap;
+    gap: 13px 24px;
+  }
+}
+
+/* Phones: the photo sits under the copy instead of behind it. */
+@media (max-width: 767px) {
+  .section {
+    padding: 48px 20px calc(100vw + 24px);
+    background: #f4e8d8;
+  }
+
+  .section::before {
+    display: none;
+  }
+
+  .bg {
+    inset: auto 0 0;
+    height: auto;
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, transparent, #000 12%);
+  }
+
+  .content,
+  .perks,
+  .perks ul {
+    gap: 12px;
+  }
+
+  .content {
+    gap: 24px;
+  }
+
+  .intro {
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 28px;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  .lede {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .perks {
+    flex-direction: column;
+  }
+
+  .perks li {
+    flex-shrink: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: normal;
+  }
+}

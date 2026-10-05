@@ -1,0 +1,183 @@
+/* Tokens, reset and page frame. Components carry their own styles (CSS Modules). */
+:root {
+  --bg: #fdfefb;
+  --ink: #000;
+  --ink-soft: #232522;
+  --muted: #71756e;
+  /* Atif's greys, each darkened just enough to reach WCAG AA (4.5:1) on the page. */
+  --muted-2: #73776c;
+  --muted-3: #73776d;
+  --line: #ededed;
+  --frame: #f0f0f0;
+  --brand: #ff4601;
+  --brand-tint: rgba(255, 70, 1, 0.1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
+  /* --font-sans and --font-label are set on <html> by next/font (app/fonts.ts). */
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure, blockquote {
+  margin: 0;
+}
+
+h1, h2, h3, h4 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+
+img, svg, video, picture {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink-soft);
+  outline-offset: 5px;
+}
+
+::selection {
+  background: rgba(255, 70, 1, 0.16);
+}
+
+/* The page frame: Atif's 1276px layout, scaled as one piece on laptops so its
+   proportions hold exactly, fluid below 1001px. */
+.page {
+  width: min(1276px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+@media (max-width: 1323px) and (min-width: 1001px) {
+  .page {
+    width: 1276px;
+    zoom: calc((100vw - 48px) / 1276px);
+  }
+}
+
+@media (max-width: 1000px) {
+  .page {
+    width: calc(100% - 32px);
+  }
+}
+
+@media (max-width: 767px) {
+  .page {
+    width: calc(100% - 24px);
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--ink-soft);
+  color: #fff;
+  font-weight: 500;
+  transform: translateY(-160%);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline-offset: 2px;
+}
+
+/* Scroll reveals (components/layout/PageMotion): content is visible by default and
+   only waits once the script has marked it as still ahead of the reader. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal][data-pending] {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  [data-reveal][data-revealed] {
+    transition:
+      opacity 0.7s var(--ease-out) var(--reveal-delay, 0ms),
+      transform 0.8s var(--ease-out) var(--reveal-delay, 0ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}

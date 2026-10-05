@@ -1,0 +1,152 @@
+.cta {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 4px;
+  border-radius: 12px;
+  background-image: linear-gradient(to bottom, #fbad90, var(--brand));
+  filter: drop-shadow(0 5px 5.2px rgba(72, 127, 237, 0.11));
+  transition:
+    filter 0.2s,
+    transform 0.2s var(--ease-out);
+}
+
+.cta:hover {
+  filter: brightness(1.04) drop-shadow(0 8px 14px rgba(255, 70, 1, 0.18));
+}
+
+.cta:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.cta:focus-visible {
+  outline-offset: 4px;
+}
+
+/* The face: orange fill, a soft peach glow at its centre, an inner shadow at its
+   rim, and a light sweep on hover. */
+.face {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  background: var(--brand);
+  box-shadow: inset 0 0 8.5px rgba(165, 45, 0, 0.46);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.face::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  width: 122.688px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f7c7b5;
+  opacity: 0.2;
+  filter: blur(23.6px);
+  translate: -50% -50%;
+  pointer-events: none;
+}
+
+.face::after {
+  content: "";
+  position: absolute;
+  inset: -60% -65%;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 38%, #ffffff08 44%, #ffffff35 50%, #ffffff08 56%, transparent 62%);
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.cta:hover .face::after,
+.cta:focus-visible .face::after {
+  animation: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+.label {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.54px;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.nav .face {
+  padding: 11px 20px;
+}
+
+.nav .label {
+  font-size: 16px;
+  letter-spacing: -0.48px;
+}
+
+.arrow {
+  font-family: var(--font-label), system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 20px;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .cta {
+    padding: 3px;
+    min-height: 44px;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .face,
+  .nav .face {
+    min-height: 38px;
+    padding: 10px 16px;
+    gap: 6px;
+    border-radius: 7px;
+  }
+
+  .nav .face {
+    padding: 9px 12px;
+  }
+
+  .label,
+  .nav .label {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+  }
+
+  .arrow {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 359px) {
+  .nav .face {
+    padding-inline: 8px;
+  }
+
+  .nav .label {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta:hover .face::after,
+  .cta:focus-visible .face::after {
+    animation: none;
+  }
+}

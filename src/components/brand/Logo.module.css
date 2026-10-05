@@ -1,0 +1,43 @@
+/* --logo-size is the wordmark's type size, as in Atif's layout. */
+.logo {
+  --logo-size: 31.926px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--logo-gap, 6.106px);
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+.mark {
+  width: var(--mark-size, 41.008px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+.wordmark {
+  height: calc(var(--logo-size) * 1.2);
+  width: auto;
+  aspect-ratio: 3747 / 1200;
+  fill: #000;
+  opacity: 0.8;
+}
+
+@media (max-width: 1000px) {
+  .logo {
+    --logo-size: 27px;
+  }
+}
+
+@media (max-width: 767px) {
+  .logo {
+    --logo-size: 24px;
+    --mark-size: 32px;
+    --logo-gap: 6px;
+  }
+}
+
+@media (max-width: 359px) {
+  .logo {
+    --logo-size: 21px;
+  }
+}

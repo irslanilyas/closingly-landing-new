@@ -1,0 +1,34 @@
+# Closingly
+
+> Closingly is an AI sales assistant for freelancers, consultants, agencies and anyone who sends a proposal after a sales call. It joins the call as a visible notetaker, then drafts the proposal, recommends a price based on the user's own past deals, tracks the deal and drafts the follow-ups. It is in a free, invite-only founding beta.
+
+Closingly is built for people who sell their own work: the same person who takes the call also writes the proposal, sets the price and chases the follow-up. Most AI notetakers stop at the transcript. Closingly carries one conversation all the way to a priced proposal, a tracked deal and lessons from how it ended.
+
+## What it does
+
+- Joins Google Meet, Zoom and Microsoft Teams calls from the user's Google Calendar as a visible participant named "Closingly Notetaker". It only joins calls the user switches on, and never records in secret.
+- Classifies each call. Discovery calls become deals; other meetings stay out of the pipeline. Transcripts from other tools can be pasted in instead.
+- Drafts a client proposal from what the client actually said, editable in plain language, with custom proposal designs.
+- Recommends a low, middle and high price with reasoning and a confidence level, based on the user's own closed deals, currency, pricing model and minimum project size.
+- Shares proposals as links and shows when the client opened them and which sections they read.
+- Flags deals that need a nudge (unopened proposals, silence after reading, stalled deals, quiet past clients) and drafts the follow-up for each.
+- Detects scope creep by checking a client's new request against what was agreed.
+- Shows the pipeline as a board, list or forecast, plus win and loss analysis, loss post-mortems, case study drafts and capacity forecasting.
+- Ask Closingly, the built-in assistant, answers questions about deals and writes a one-minute brief before each call.
+
+## Status
+
+- Free, invite-only founding beta with 200 spots, run by two founders based in Pakistan.
+- No paid plans yet. There are no published customer numbers, testimonials or case studies.
+
+## Pages
+
+- [Home](https://closingly.app/): what Closingly does, how it works and FAQ
+- [Join the founding beta](https://closingly.app/beta): apply for free early access
+- [Privacy Policy](https://closingly.app/privacy): what data is collected and how it is used, including Google user data
+- [Terms of Service](https://closingly.app/terms): rules for using Closingly, governed by the laws of Pakistan
+
+## Contact
+
+- hello@closingly.app
+- privacy@closingly.app

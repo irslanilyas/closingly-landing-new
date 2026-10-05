@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      next-react:
+        patterns: ["next", "react", "react-dom", "eslint-config-next", "@types/react*"]
+      videojs:
+        patterns: ["@videojs/*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

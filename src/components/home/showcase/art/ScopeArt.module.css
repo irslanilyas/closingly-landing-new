@@ -1,0 +1,282 @@
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62.8%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.icon {
+  position: relative;
+  flex: none;
+  border-radius: 50%;
+}
+
+.icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 -0.9px 3.1px rgba(255, 255, 255, 0.27),
+    inset 0 0.9px 3.1px rgba(255, 255, 255, 0.85);
+}
+
+.iconMark {
+  width: 100%;
+  height: 100%;
+}
+
+.iconSmall {
+  width: 28.721px;
+  height: 28.721px;
+  box-shadow: 0 0.833px 8.12px 6.662px rgba(255, 70, 1, 0.04);
+}
+
+.iconLarge {
+  width: 31.511px;
+  height: 31.511px;
+  box-shadow: 0 0.914px 8.909px 7.31px rgba(255, 70, 1, 0.04);
+  --d: 1.15s;
+}
+
+/* 1. The new request is read against what was agreed. */
+.check {
+  position: absolute;
+  left: 115.72px;
+  top: 48.37px;
+  width: 405.551px;
+  height: 245.442px;
+  overflow: clip;
+  border-radius: 12.01px;
+  background: rgba(255, 255, 254, 0.96);
+  box-shadow: 0 15.013px 35.029px rgba(64, 74, 48, 0.06);
+  opacity: 0.8;
+  --t: 0.5s;
+}
+
+.checkHead {
+  position: absolute;
+  left: 20.02px;
+  right: 27.02px;
+  top: 16.01px;
+  display: flex;
+  flex-direction: column;
+  gap: 13.196px;
+  color: var(--ink-soft);
+  font-size: 14.57px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.4371px;
+}
+
+.checkHead .row {
+  gap: 6.853px;
+}
+
+.working {
+  display: flex;
+  align-items: center;
+  gap: 5.204px;
+  width: 100%;
+  padding: 6.244px 7.285px;
+  border: 1.041px solid var(--brand);
+  border-radius: 7.285px;
+  background-image: linear-gradient(to right, rgba(255, 196, 174, 0.21), rgba(250, 180, 155, 0.21));
+  box-shadow: 0 4.163px 23.936px rgba(255, 70, 1, 0.31);
+  white-space: nowrap;
+}
+
+.workingIcon {
+  flex: none;
+  width: 24.977px;
+  height: 24.977px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-seen] [data-active] .workingIcon {
+    animation: orbit 2.4s linear infinite;
+  }
+}
+
+@keyframes orbit {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.thread {
+  position: absolute;
+  left: 40.81px;
+  top: 96.81px;
+  width: 1.912px;
+  height: 97.712px;
+  background: #f5f5f5;
+}
+
+.item {
+  position: absolute;
+  left: 60.7px;
+  top: 116.83px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.913px;
+  font-family: var(--font-label), system-ui, sans-serif;
+  white-space: nowrap;
+  --d: 0.35s;
+}
+
+.itemNew {
+  top: 180.34px;
+  --d: 0.6s;
+}
+
+.item i {
+  position: absolute;
+  left: -26.46px;
+  top: 3.26px;
+  width: 14.622px;
+  height: 14.622px;
+  border-radius: 50%;
+  background: #feebe3;
+}
+
+.item span {
+  color: #7d8276;
+  font-size: 11.478px;
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+.item p {
+  color: #000;
+  font-size: 12.435px;
+  line-height: 23px;
+}
+
+/* 2. The verdict, with the way forward. */
+.verdict {
+  position: absolute;
+  left: 96.02px;
+  top: 277.86px;
+  display: flex;
+  flex-direction: column;
+  gap: 9.652px;
+  width: 444.953px;
+  overflow: clip;
+  padding: 17.373px 22.199px;
+  border-radius: 13.177px;
+  background: rgba(255, 255, 254, 0.96);
+  box-shadow: 0 16.471px 38.433px rgba(64, 74, 48, 0.06);
+  --d: 0.95s;
+}
+
+.verdictText {
+  display: flex;
+  flex-direction: column;
+  gap: 10.617px;
+}
+
+.verdictText .row {
+  gap: 7.519px;
+  color: var(--ink-soft);
+  font-size: 15.985px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.4796px;
+}
+
+.verdictText p {
+  color: var(--muted-2);
+  font-size: 13.513px;
+  line-height: 23px;
+}
+
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7.819px;
+  width: 100%;
+  padding: 11.729px 15.638px;
+  overflow: hidden;
+  border-radius: 6.255px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 14.075px;
+  font-weight: 500;
+  line-height: 15px;
+  letter-spacing: -0.4222px;
+  white-space: nowrap;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  left: calc(50% + 2.08px);
+  top: calc(50% + 1.23px);
+  width: 95.932px;
+  height: 21.894px;
+  border-radius: 50%;
+  background: #f7c7b5;
+  opacity: 0.2;
+  filter: blur(19px);
+  transform: translate(-50%, -50%);
+}
+
+.button img {
+  position: relative;
+  width: 26.354px;
+  height: 26.354px;
+}
+
+/* 3. The pointer comes in and takes the next step. */
+.cursor {
+  position: absolute;
+  left: 433.67px;
+  top: 417.26px;
+  width: 56.281px;
+  height: 56.281px;
+  transform: rotate(-26.83deg);
+}
+
+.cursor img {
+  position: absolute;
+  left: -9.3px;
+  top: -37.71px;
+  width: 79px;
+  height: 93.99px;
+  max-width: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-seen] [data-active] .cursor {
+    animation: pointer 0.9s var(--ease-glide) 1.45s backwards;
+  }
+
+  [data-seen] [data-active] .button {
+    animation: press 0.32s var(--ease-out) 2.3s;
+  }
+}
+
+@keyframes pointer {
+  from {
+    opacity: 0;
+    translate: 70px 60px;
+  }
+}
+
+@keyframes press {
+  40% {
+    scale: 0.97;
+    filter: brightness(1.08);
+  }
+}

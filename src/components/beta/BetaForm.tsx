@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { SITE } from "@/lib/site";
 import { CALLS, COUNTRY_CODES, ROLES, ZONE_COUNTRY } from "./countries";
 import { Success } from "./Success";
 import s from "./BetaForm.module.css";
 
-const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+const TURNSTILE_SITE_KEY = SITE.turnstileSiteKey;
 const TURNSTILE_SCRIPT = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 type Turnstile = {

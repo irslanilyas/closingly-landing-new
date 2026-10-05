@@ -44,8 +44,8 @@ npx wrangler secret put TURNSTILE_SECRET --env preview   # preview
 npx wrangler secret put TURNSTILE_SECRET                 # production
 ```
 
-The public Turnstile site key is read at build time from
-`NEXT_PUBLIC_TURNSTILE_SITE_KEY`.
+The public Turnstile site key is in `src/lib/site.ts`; the widget allows
+closingly.app and the preview hostname.
 
 ```bash
 npm run deploy:preview   # closingly-landing-preview on workers.dev, noindex

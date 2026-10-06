@@ -190,81 +190,8 @@
   display: none;
 }
 
-/* The same rim-and-face button as every call to action. */
 .apply {
-  width: 100%;
   margin-top: 4px;
-  padding: 3px;
-  border-radius: 11px;
-  background: linear-gradient(#fbad90, var(--brand));
-  box-shadow: 0 5px 10px rgba(72, 127, 237, 0.11);
-  cursor: pointer;
-  transition:
-    filter 0.2s,
-    transform 0.2s var(--ease-out);
-}
-
-.apply:hover {
-  filter: brightness(1.04);
-}
-
-.apply:active {
-  transform: translateY(1px) scale(0.99);
-}
-
-.apply:disabled {
-  cursor: progress;
-  filter: saturate(0.8) brightness(0.97);
-}
-
-.apply > span {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 46px;
-  padding: 12px;
-  overflow: hidden;
-  border-radius: 8px;
-  background: var(--brand);
-  box-shadow: inset 0 0 8px rgba(165, 45, 0, 0.46);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-}
-
-.apply > span::after {
-  content: "";
-  position: absolute;
-  inset: -60% -65%;
-  background: linear-gradient(110deg, transparent 38%, #ffffff08 44%, #ffffff35 50%, #ffffff08 56%, transparent 62%);
-  opacity: 0;
-  transform: translateX(-100%);
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .apply:hover > span::after,
-  .apply:focus-visible > span::after {
-    animation: shimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  20%,
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
 }
 
 .note {
@@ -296,7 +223,41 @@
   line-height: 1.6;
 }
 
+/* ── Sending: the form steps back behind the paper plane ── */
+.stage {
+  position: relative;
+}
+
+.stage > .intro,
+.stage > .form {
+  transition:
+    opacity 0.6s var(--ease-out),
+    filter 0.6s var(--ease-out),
+    transform 0.7s var(--ease-out);
+}
+
+.stage[data-sending] > .intro,
+.stage[data-sending] > .form {
+  opacity: 0.16;
+  filter: blur(7px) saturate(0.6);
+  transform: scale(0.94) translateY(10px);
+  pointer-events: none;
+}
+
+.plane {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ── Success ── */
+.afterPlane {
+  padding-top: 92px;
+}
+
 .done {
   display: flex;
   flex-direction: column;
@@ -386,6 +347,7 @@
 
 .spark {
   position: absolute;
+  z-index: 3;
   left: 50%;
   top: 50%;
   border-radius: 50%;
@@ -479,6 +441,10 @@
 }
 
 @media (max-width: 767px) {
+  .afterPlane {
+    padding-top: 80px;
+  }
+
   .intro h1 {
     font-size: 34px;
     letter-spacing: -1.2px;

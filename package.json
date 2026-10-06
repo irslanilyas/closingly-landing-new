@@ -17,6 +17,7 @@
     "@videojs/mux-data": "^10.0.1",
     "@videojs/mux-video": "^10.0.1",
     "@videojs/react": "^10.0.1",
+    "lottie-web": "5.13.0",
     "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"

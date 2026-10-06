@@ -1,13 +1,5 @@
-.bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 62.8%;
-}
-
 .fill {
+  display: block;
   width: 100%;
   height: 100%;
 }
@@ -18,8 +10,6 @@
   left: calc(325.68px - 11.48px);
   top: calc(151.71px - 11.48px);
   width: calc(287.27px + 22.96px);
-  --d: 0.45s;
-  --t: 0.8s;
 }
 
 .pageFront {
@@ -28,8 +18,6 @@
   top: calc(132.4px - 11.48px);
   width: calc(335.43px + 22.96px);
   transform: rotate(-4.95deg);
-  --d: 0.3s;
-  --t: 0.8s;
 }
 
 /* 1. The transcript lands. */
@@ -48,7 +36,6 @@
   box-shadow: 0 17.745px 34.307px rgba(83, 83, 83, 0.25);
   transform: translateX(-50%);
   white-space: nowrap;
-  --d: 0.05s;
 }
 
 .source {
@@ -96,39 +83,47 @@
 
 /* 2. Closingly works on it. */
 .working {
-  display: flex;
-  align-items: center;
+  position: relative;
   gap: 5.915px;
-  width: 100%;
   padding: 7.098px 8.281px;
-  border: 1.183px solid var(--brand);
+  --border: 1.183px;
   border-radius: 8.281px;
-  background-image: linear-gradient(to right, rgba(255, 196, 174, 0.21), rgba(250, 180, 155, 0.21));
-  box-shadow: 0 4.732px 27.209px rgba(255, 70, 1, 0.31);
-  color: var(--ink-soft);
   font-size: 16.562px;
-  font-weight: 500;
   line-height: 22px;
   letter-spacing: -0.4969px;
-  --d: 0.5s;
-  --t: 0.7s;
 }
 
-.workingIcon {
-  flex: none;
-  width: 28.392px;
-  height: 28.392px;
+/* The orange light is its own layer, so it fades up instead of switching on. */
+.glow {
+  position: absolute;
+  inset: -1.183px;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 4.732px 27.209px rgba(255, 70, 1, 0.31);
+  pointer-events: none;
+}
+
+.progress {
+  position: absolute;
+  left: 8.281px;
+  right: 8.281px;
+  bottom: -1.183px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left;
 }
 
 /* The orbits keep turning while the proposal is being drafted. */
 @media (prefers-reduced-motion: no-preference) {
-  [data-seen] [data-active] .workingIcon {
-    animation: orbit 2.4s linear infinite;
+  [data-seen] [data-active] .glow {
+    animation: breathe 2.8s var(--ease-in-out) 2.6s infinite alternate;
   }
 }
 
-@keyframes orbit {
+@keyframes breathe {
   to {
-    rotate: 360deg;
+    scale: 1.04 1.12;
   }
 }

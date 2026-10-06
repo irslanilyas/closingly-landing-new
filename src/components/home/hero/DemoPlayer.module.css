@@ -9,3 +9,8 @@
   --media-border-color: transparent;
   --media-font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+/* Mux carries the upload's file name as the media title; the demo needs no caption. */
+.skin :global(.media-title) {
+  display: none;
+}

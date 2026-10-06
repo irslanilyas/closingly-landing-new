@@ -538,6 +538,47 @@
   box-shadow: 0 6.13px 21.92px rgba(52, 64, 31, 0.25);
 }
 
+/* ── Under the mouse (PointerArt) ── */
+.room {
+  position: absolute;
+  inset: 0;
+}
+
+.glare {
+  position: absolute;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 32%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+[data-hover] .glare {
+  opacity: 1;
+}
+
+.slot {
+  position: relative;
+}
+
+.slot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed rgba(255, 255, 255, 0.85);
+  border-radius: inherit;
+  background: rgba(255, 70, 1, 0.16);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+
+[data-landing] .slot::after {
+  opacity: 1;
+}
+
 /* When the card is first seen, it is carried over from the Lead column. */
 @media (prefers-reduced-motion: no-preference) {
   [data-revealed] .dragged {

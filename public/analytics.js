@@ -22,6 +22,10 @@
    with the page for the first paint. Events sent before then wait in dataLayer. */
 (() => {
  const MEASUREMENT_ID = 'G-9S64ZB03KB';
+ // Microsoft Clarity (heatmaps and session replays): the project ID from
+ // clarity.microsoft.com > Settings > Overview. Empty means Clarity stays off.
+ // It loads with gtag.js, late, and follows the same consent choice.
+ const CLARITY_ID = 'ytdldf3yk2';
  const STORE = 'closingly-consent';
  const ASK_FIRST = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH'];
 
@@ -55,6 +59,14 @@
    tag.async = true;
    tag.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
    document.head.append(tag);
+   if (CLARITY_ID) {
+    window.clarity = window.clarity || function () {(window.clarity.q = window.clarity.q || []).push(arguments);};
+    const clarityTag = document.createElement('script');
+    clarityTag.async = true;
+    clarityTag.src = `https://www.clarity.ms/tag/${CLARITY_ID}`;
+    document.head.append(clarityTag);
+    clarityConsent();
+   }
   };
   ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(type => addEventListener(type, load, {once:true, passive:true}));
   const later = () => setTimeout(load, 5000);
@@ -73,10 +85,15 @@
    });
   });
  }
+ // Clarity has no regional default of its own: Europe stays cookieless until a yes.
+ function clarityConsent() {
+  window.clarity?.('consentv2', {ad_Storage:'denied', analytics_Storage:choice || (european ? 'denied' : 'granted')});
+ }
  function decide(value) {
   choice = value;
   try {localStorage.setItem(STORE, value);} catch {}
   gtag('consent', 'update', {analytics_storage:value});
+  clarityConsent();
   if (value === 'denied') forgetCookies();
   hideNotice();
  }
@@ -107,7 +124,7 @@
   notice = document.createElement('section');
   notice.className = 'cookie-note';
   notice.setAttribute('aria-label', 'Cookie choice');
-  notice.innerHTML = '<p>We use Google Analytics to see how people find and use this site. No ads, and nothing that follows you to other sites. <a href="/privacy#analytics">Privacy Policy</a></p><div class="cookie-note-actions"><button type="button" data-consent="denied">Decline</button><button type="button" data-consent="granted">Accept</button></div>';
+  notice.innerHTML = `<p>We use ${CLARITY_ID ? 'Google Analytics and Microsoft Clarity' : 'Google Analytics'} to see how people find and use this site. No ads, and nothing that follows you to other sites. <a href="/privacy#analytics">Privacy Policy</a></p><div class="cookie-note-actions"><button type="button" data-consent="denied">Decline</button><button type="button" data-consent="granted">Accept</button></div>`;
   notice.addEventListener('click', event => {
    const button = event.target.closest('[data-consent]');
    if (button) decide(button.dataset.consent);

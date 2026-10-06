@@ -93,8 +93,13 @@ async function apply(request: Request, env: Env, url: URL): Promise<Response> {
       p_country_code: country,
       p_country_name: optional(input.countryName, 80),
       p_timezone: optional(input.timezone, 64),
+      // Where the applicant came from, as their link showed it. The database labels it (classify_arrival).
       p_source: optional(input.source, 100),
       p_referrer: optional(input.referrer, 200),
+      p_medium: optional(input.medium, 100),
+      p_campaign: optional(input.campaign, 100),
+      p_click_id: optional(input.clickId, 20),
+      p_in_app: optional(input.inApp, 40),
     }),
   });
   if (!res.ok) {

@@ -2,6 +2,7 @@ import { Mark } from "@/components/brand/Logo";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { Picture } from "@/components/ui/Picture";
 import section from "../section.module.css";
+import { PointerArt } from "./PointerArt";
 import s from "./HowItWorks.module.css";
 
 // The voice spectrum: three bar heights in Atif's order, each bar on its own tempo.
@@ -110,10 +111,13 @@ export function HowItWorks() {
 
         {/* 2. Create the deal */}
         <article className={s.card} data-reveal="" style={{ "--reveal-delay": "70ms" } as React.CSSProperties}>
-          <div className={s.art} role="img" aria-label="A deal Closingly created automatically, with its value, timeline and next action.">
+          <div className={s.art} role="img" aria-label="A deal Closingly created automatically, with its value, timeline and next action." data-tilt="">
             <div className={s.stage}>
-              <Picture name="howDeal" sizes="419px" className={s.bg} />
-              <div className={s.deal}>
+              <span className={s.room} data-tilt-room="">
+                <Picture name="howDeal" sizes="419px" className={s.bg} />
+              </span>
+              <div className={s.deal} data-tilt-card="">
+                <span className={s.glare} data-tilt-glare="" />
                 <div className={s.dealHead}>
                   <span className={s.dealLogo}>
                     <Picture name="logoAster" sizes="36px" />
@@ -158,7 +162,7 @@ export function HowItWorks() {
 
         {/* 3. Move it forward */}
         <article className={s.card} data-reveal="" style={{ "--reveal-delay": "140ms" } as React.CSSProperties}>
-          <div className={s.art} role="img" aria-label="Deals moving forward from lead to proposal sent.">
+          <div className={s.art} role="img" aria-label="Deals moving forward from lead to proposal sent." data-drag="">
             <div className={s.stage}>
               <Picture name="howCall" sizes="419px" className={s.bg} />
               <div className={`${s.column} ${s.sent}`}>
@@ -177,7 +181,7 @@ export function HowItWorks() {
                   />
                 </div>
               </div>
-              <div className={s.dragged}>
+              <div className={s.dragged} data-drag-card="">
                 <MiniDeal
                   className={s.draggedCard}
                   deal={{ name: "Aster  Website Redesign", client: "Aster Inc. · Johnny Walker", value: "$12,500", timeline: "6 weeks", next: "Review Proposal" }}
@@ -192,6 +196,7 @@ export function HowItWorks() {
         </article>
       </div>
 
+      <PointerArt />
       <div data-reveal="">
         <CtaButton href="/beta">
           Get Free Beta Access

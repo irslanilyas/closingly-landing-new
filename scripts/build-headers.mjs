@@ -17,12 +17,12 @@ const preview = process.argv.includes("--preview");
 const directives = (scriptHashes) =>
   [
     "default-src 'self'",
-    `script-src 'self' ${scriptHashes.join(" ")} https://www.googletagmanager.com https://challenges.cloudflare.com https://static.cloudflareinsights.com`,
+    `script-src 'self' ${scriptHashes.join(" ")} https://www.googletagmanager.com https://challenges.cloudflare.com https://static.cloudflareinsights.com https://www.clarity.ms https://*.clarity.ms`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https://image.mux.com https://*.google-analytics.com https://*.googletagmanager.com",
+    "img-src 'self' data: blob: https://image.mux.com https://*.google-analytics.com https://*.googletagmanager.com https://*.clarity.ms https://c.bing.com",
     "font-src 'self'",
     "media-src 'self' blob: https://*.mux.com",
-    "connect-src 'self' https://*.mux.com https://*.litix.io https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com",
+    "connect-src 'self' https://*.mux.com https://*.litix.io https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://cloudflareinsights.com https://*.clarity.ms",
     "worker-src 'self' blob:",
     "frame-src https://challenges.cloudflare.com",
     "object-src 'none'",

@@ -1,0 +1,198 @@
+/* What every showcase illustration shares: the stage, the backdrop photo, the
+   glossy Closingly mark, the "working" bar, the orange action button, the
+   pointer and Closingly thinking. Each art module adds only its own geometry. */
+
+.root {
+  position: absolute;
+  inset: 0;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--bg-at, 50% 62.8%);
+}
+
+/* Alternatives that take turns in one place (labels, counts, variations): all in
+   one grid cell, so swapping them never changes the layout. The ones waiting
+   their turn start hidden. */
+.layers {
+  display: grid;
+}
+
+.layers > * {
+  grid-area: 1 / 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+/* The mark as a glossy orb, drawn at any --size. */
+.gloss {
+  position: relative;
+  flex: none;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  box-shadow: 0 calc(var(--size) * 0.029) calc(var(--size) * 0.283) calc(var(--size) * 0.232) rgba(255, 70, 1, 0.04);
+}
+
+.gloss::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 calc(var(--size) * -0.029) calc(var(--size) * 0.1) rgba(255, 255, 255, 0.27),
+    inset 0 calc(var(--size) * 0.029) calc(var(--size) * 0.1) rgba(255, 255, 255, 0.85);
+}
+
+.gloss > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Closingly at work on something: a peach bar with a turning orbit icon. */
+.working {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: var(--border, 1px) solid var(--brand);
+  background-image: linear-gradient(to right, rgba(255, 196, 174, 0.21), rgba(250, 180, 155, 0.21));
+  color: var(--ink-soft);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.orbit {
+  flex: none;
+}
+
+/* The orange action button, with the same peach glow as the calls to action. */
+.action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.action::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 98px;
+  height: 22px;
+  border-radius: 50%;
+  background: #f7c7b5;
+  opacity: 0.2;
+  filter: blur(19px);
+  translate: -50% -50%;
+}
+
+.action > img {
+  position: relative;
+}
+
+.sparkle {
+  flex: none;
+  width: var(--sparkle, 10px);
+  height: var(--sparkle, 10px);
+  fill: var(--brand);
+}
+
+.cursor {
+  position: absolute;
+  z-index: 5;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  rotate: -26.83deg;
+  pointer-events: none;
+}
+
+.cursor img {
+  position: absolute;
+  left: -31px;
+  top: -39.5px;
+  width: 79px;
+  height: 94px;
+  max-width: none;
+}
+
+.thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #7d8276;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.dots {
+  display: inline-flex;
+  gap: 2.5px;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+
+.dots i {
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+/* Loops run only on the panel on screen (or the one fading out). */
+@media (prefers-reduced-motion: no-preference) {
+  :is([data-active], [data-leaving]) .orbit {
+    animation: turn 2.4s linear infinite;
+  }
+
+  :is([data-active], [data-leaving]) .thinking .gloss {
+    animation: turn 1.4s linear infinite;
+  }
+
+  :is([data-active], [data-leaving]) .dots i {
+    animation: dot 1.2s var(--ease-in-out) infinite;
+  }
+
+  :is([data-active], [data-leaving]) .dots i:nth-child(2) {
+    animation-delay: 0.16s;
+  }
+
+  :is([data-active], [data-leaving]) .dots i:nth-child(3) {
+    animation-delay: 0.32s;
+  }
+}
+
+@keyframes turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes dot {
+  0%,
+  100% {
+    opacity: 0.25;
+    translate: 0 0;
+  }
+  40% {
+    opacity: 1;
+    translate: 0 -2px;
+  }
+}

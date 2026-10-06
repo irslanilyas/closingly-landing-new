@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { track } from "@/lib/analytics";
+import { PlayingContext } from "./art/scene";
 import styles from "./Showcase.module.css";
 
 export type Feature = {
@@ -36,6 +37,9 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
   const [active, setActive] = useState(0);
   const [direction, setDirection] = useState(1);
   const [seen, setSeen] = useState(false);
+  // The panel fading out keeps its story running until it is gone, so it never snaps.
+  const [leaving, setLeaving] = useState(-1);
+  const leaveTimer = useRef(0);
 
   // Scroll geometry, kept out of React state: it changes on every resize.
   const geo = useRef({ step: 360, start: 0, enabled: true });
@@ -45,6 +49,9 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
   const select = useCallback((index: number) => {
     if (index === activeRef.current) return;
     setDirection(index < activeRef.current ? -1 : 1);
+    setLeaving(activeRef.current);
+    clearTimeout(leaveTimer.current);
+    leaveTimer.current = window.setTimeout(() => setLeaving(-1), 600);
     activeRef.current = index;
     setActive(index);
   }, []);
@@ -95,7 +102,9 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
     };
   }, [active, seen]);
 
-  useEffect(() => {
+  // A layout effect: the showcase reaches its full height before the first paint,
+  // so a restored scroll position lands where the reader left it.
+  useLayoutEffect(() => {
     const root = rootRef.current!;
     const stage = stageRef.current!;
     const scroller = scrollerRef.current!;
@@ -126,12 +135,19 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
       queue();
     };
 
+    // The viewport height without the browser's collapsing toolbars: stable while
+    // Safari and Chrome slide their address bars in and out during a scroll.
+    let lastWidth = 0;
+    let lastHeight = 0;
     const size = () => {
+      const viewHeight = document.documentElement.clientHeight;
+      lastWidth = innerWidth;
+      lastHeight = viewHeight;
       // Each feature gets about half a screen of scroll: enough to read on a
       // trackpad flick, short enough that a mouse wheel isn't a chore.
-      const step = Math.round(Math.min(520, Math.max(360, innerHeight * 0.55)));
+      const step = Math.round(Math.min(520, Math.max(360, viewHeight * 0.55)));
       const compact = innerWidth <= 1000;
-      const enabled = !(compact && innerHeight < 600);
+      const enabled = !(compact && viewHeight < 600);
       host.dataset.measuring = "";
       const scale = root.getBoundingClientRect().width / root.offsetWidth || 1;
       const copies = panels.map((p) => p.querySelector<HTMLElement>("[data-copy]")!);
@@ -142,7 +158,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
       const artScale = !compact
         ? 1
         : enabled
-          ? Math.min(fitWidth, Math.max(120, innerHeight / scale - headingHeight - tabsHeight - copyHeight) / ART_HEIGHT)
+          ? Math.min(fitWidth, Math.max(120, viewHeight / scale - headingHeight - tabsHeight - copyHeight) / ART_HEIGHT)
           : fitWidth;
       root.style.setProperty("--art-zoom", compact ? String(artScale) : "1");
       host.style.height = `${compact ? copyHeight + ART_HEIGHT * artScale : ART_HEIGHT}px`;
@@ -156,6 +172,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
 
     let resizeFrame = 0;
     const onResize = () => {
+      if (innerWidth === lastWidth && document.documentElement.clientHeight === lastHeight) return;
       cancelAnimationFrame(resizeFrame);
       resizeFrame = requestAnimationFrame(size);
     };
@@ -179,7 +196,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
       { rootMargin: "0px 0px -20% 0px" },
     );
 
-    const first = requestAnimationFrame(size);
+    size();
     document.fonts.ready.then(() => requestAnimationFrame(size));
     io.observe(host);
     addEventListener("scroll", queue, { passive: true });
@@ -189,7 +206,6 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
     addEventListener("keydown", onKey);
     return () => {
       io.disconnect();
-      cancelAnimationFrame(first);
       cancelAnimationFrame(frame);
       cancelAnimationFrame(resizeFrame);
       clearTimeout(glide.timer);
@@ -265,6 +281,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
               role="tabpanel"
               aria-labelledby={`feature-tab-${i}`}
               data-active={i === active ? "" : undefined}
+              data-leaving={i === leaving ? "" : undefined}
               aria-hidden={i !== active}
               inert={i !== active}
             >
@@ -272,7 +289,9 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
                 {f.copy}
               </div>
               <div className={styles.art} role="img" aria-label={f.artLabel}>
-                {f.art}
+                <div className={styles.canvas}>
+                  <PlayingContext.Provider value={seen && (i === active || i === leaving)}>{f.art}</PlayingContext.Provider>
+                </div>
               </div>
             </section>
           ))}

@@ -1,0 +1,9 @@
+# Permanent moves from the previous static site, so search engines carry the
+# old pages' standing over and shared links (and their cached previews) keep working.
+/index.html / 301
+/beta.html /beta 301
+/privacy.html /privacy 301
+/terms.html /terms 301
+/assets/og-image.jpg /og-image.jpg 301
+/assets/apple-touch-icon.png /apple-touch-icon.png 301
+/assets/favicon.svg /brand/favicon.svg 301

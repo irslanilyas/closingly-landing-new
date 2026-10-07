@@ -29,8 +29,25 @@
  const STORE = 'closingly-consent';
  const ASK_FIRST = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH'];
 
+ // The team's own browsers stay out of both tools, whatever their IP. Open
+ // closingly.app/?notrack once in a browser to switch it off there for good,
+ // and /?notrack=0 to switch it back on. Remembered in this browser only.
+ const OPT_OUT = 'closingly-notrack';
+ let team = false;
+ try {
+  const flag = new URLSearchParams(location.search).get('notrack');
+  if (flag !== null) {
+   if (flag === '0') localStorage.removeItem(OPT_OUT); else localStorage.setItem(OPT_OUT, '1');
+   const url = new URL(location.href);
+   url.searchParams.delete('notrack');
+   history.replaceState(history.state, '', url);
+   alert(flag === '0' ? 'Analytics is back on in this browser.' : 'Analytics is off in this browser. Your visits will not be recorded.');
+  }
+  team = localStorage.getItem(OPT_OUT) === '1';
+ } catch {}
+
  // Only the live site reports; local and preview copies never send a hit.
- const LIVE = location.hostname === 'closingly.app';
+ const LIVE = location.hostname === 'closingly.app' && !team;
  if (!LIVE) window[`ga-disable-${MEASUREMENT_ID}`] = true;
 
  window.dataLayer = window.dataLayer || [];

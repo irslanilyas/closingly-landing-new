@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Picture } from "@/components/ui/Picture";
+import { AskGlobe } from "./AskGlobe";
 import { Gloss } from "./Bits";
 import { EASE, revealWords, useScene, wordsOf, type Scene } from "./scene";
 import { ART_SIZES } from "./shared";
@@ -32,9 +33,11 @@ const SPRING = "cubic-bezier(0.34, 1.4, 0.64, 1)";
 
 /** A question about a deal, answered point by point from that deal's own sources. */
 async function story(scene: Scene) {
-  const { part, parts, play } = scene;
+  const { part, parts, play, hide } = scene;
   const [panel, orb, halo, question, head, intro] = [part("panel"), part("orb"), part("halo"), part("question"), part("head"), part("intro")];
 
+  // The sourced points wait for the intro line; they never show before it is written.
+  hide(parts("point"));
   play(panel, [{ opacity: 0, transform: "translate(-50%, 20px) scale(0.985)" }, { opacity: 1, transform: "translate(-50%, 0)" }], {
     duration: 1100,
     delay: 100,
@@ -50,88 +53,15 @@ async function story(scene: Scene) {
   );
 }
 
-/**
- * The globe's eyes follow the pointer anywhere on the page. With no pointer
- * (a phone), they glance between the question and the answer instead. One
- * animation-frame loop, eased toward its target, transforms only.
- */
-function useEyes(eyes: React.RefObject<HTMLElement | null>, active: boolean) {
-  useEffect(() => {
-    const el = eyes.current;
-    if (!active || !el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const RANGE = 3.2;
-    let target = { x: 0, y: 0 };
-    const now = { x: 0, y: 0 };
-    let frame = 0;
-    let lastMove = 0;
-
-    const tick = () => {
-      now.x += (target.x - now.x) * 0.14;
-      now.y += (target.y - now.y) * 0.14;
-      el.style.transform = `translate(${now.x.toFixed(2)}px, ${now.y.toFixed(2)}px)`;
-      frame = Math.abs(target.x - now.x) + Math.abs(target.y - now.y) > 0.02 ? requestAnimationFrame(tick) : 0;
-    };
-    const aim = (x: number, y: number) => {
-      target = { x, y };
-      if (!frame) frame = requestAnimationFrame(tick);
-    };
-    const onMove = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
-      lastMove = performance.now();
-      const box = el.getBoundingClientRect();
-      const dx = e.clientX - (box.left + box.width / 2);
-      const dy = e.clientY - (box.top + box.height / 2);
-      const distance = Math.hypot(dx, dy) || 1;
-      const reach = Math.min(1, distance / 220);
-      aim((dx / distance) * RANGE * reach, (dy / distance) * RANGE * 0.8 * reach);
-    };
-
-    // Without a pointer, the globe reads the conversation: question, answer, you.
-    const glances = [
-      { x: 3, y: 1.6 },
-      { x: -1, y: 2.4 },
-      { x: 0, y: 0 },
-      { x: 2.4, y: -0.6 },
-    ];
-    let glance = 0;
-    const idle = window.setInterval(() => {
-      if (performance.now() - lastMove < 2500) return;
-      aim(glances[glance].x, glances[glance].y);
-      glance = (glance + 1) % glances.length;
-    }, 1800);
-
-    addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      removeEventListener("pointermove", onMove);
-      clearInterval(idle);
-      cancelAnimationFrame(frame);
-      el.style.transform = "";
-    };
-  }, [eyes, active]);
-}
-
 export function AskArt() {
   const root = useRef<HTMLDivElement>(null);
-  const eyes = useRef<HTMLSpanElement>(null);
-  const playing = useScene(root, story);
-  useEyes(eyes, playing);
+  useScene(root, story);
   return (
     <div ref={root} className={`${a.root} ${s.root}`}>
       <Picture name="showcaseAsk" sizes={ART_SIZES} className={a.bg} />
       <div className={s.panel} data-part="panel">
         <div className={s.top}>
-          <span className={s.orb}>
-            <span className={s.halo} data-part="halo" aria-hidden="true">
-              <span />
-            </span>
-            <span className={s.avatar} data-part="orb">
-              <Picture name="askAvatar" sizes="46px" />
-              <span className={s.eyes} ref={eyes} aria-hidden="true">
-                <i />
-                <i />
-              </span>
-            </span>
-          </span>
+          <AskGlobe />
           <span className={s.topText}>
             <b>Ask Closingly</b>
             <span>Your deals, in context.</span>

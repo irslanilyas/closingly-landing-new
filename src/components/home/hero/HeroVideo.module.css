@@ -326,6 +326,12 @@
   opacity: 1;
 }
 
+/* Mounted early to buffer: invisible and out of the way until it plays. */
+.player[data-armed] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (max-width: 767px) {
   .mark,
   .ripple {

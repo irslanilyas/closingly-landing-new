@@ -7,9 +7,10 @@ import { MuxData } from "@videojs/react/extensions/mux-data";
 import { DEMO } from "./demo";
 import styles from "./DemoPlayer.module.css";
 
-// Loaded only after a visitor asks for the demo: Video.js, hls.js and Mux Data
-// never touch the initial page load.
-export default function DemoPlayer({ onPlaying }: { onPlaying: () => void }) {
+// Never part of the initial page load. It is mounted hidden once the visitor
+// starts using the page, so the first seconds are buffered before they press
+// play; autoPlay is only for a visitor who asked before that happened.
+export default function DemoPlayer({ autoPlay, onPlaying }: { autoPlay: boolean; onPlaying: () => void }) {
   return (
     <VideoPlayer>
       <VideoSkin className={styles.skin} renderPoster={() => null}>
@@ -20,9 +21,11 @@ export default function DemoPlayer({ onPlaying }: { onPlaying: () => void }) {
             // connection; 1080p stays one tap away in the quality menu.
             maxAutoResolution: "720p",
           }}
-          autoPlay
+          autoPlay={autoPlay}
           playsInline
-          preload="auto"
+          // Mounted early it holds just the first second (hls.js widens the buffer on play);
+          // asked for directly, it buffers fully.
+          preload={autoPlay ? "auto" : "metadata"}
           crossOrigin="anonymous"
           onPlaying={onPlaying}
         />

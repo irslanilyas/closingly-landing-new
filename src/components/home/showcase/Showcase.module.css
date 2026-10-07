@@ -440,3 +440,29 @@
     position: relative;
   }
 }
+
+/* One swipe, one feature: snap stops at each feature's stretch of the page, on
+   touch screens tall enough to pin the stage. The page itself snaps by
+   proximity (globals.css), so the rest of it scrolls freely. */
+.snaps {
+  display: none;
+}
+
+@media (max-width: 1000px) and (pointer: coarse) and (min-height: 600px) {
+  .snaps {
+    position: absolute;
+    inset: 0;
+    display: block;
+    pointer-events: none;
+  }
+
+  .snaps i {
+    position: absolute;
+    left: 0;
+    top: calc(var(--i) * var(--step, 360px) + 2px);
+    width: 1px;
+    height: 1px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}

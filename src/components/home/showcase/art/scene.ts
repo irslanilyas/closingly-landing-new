@@ -25,6 +25,8 @@ export type Scene = {
   reset: () => void;
   /** Drops the animations on these elements only. */
   clear: (targets: Element[]) => void;
+  /** Holds elements invisible until a later play() brings them in, so nothing shows before its turn. */
+  hide: (targets: Element[]) => void;
 };
 
 const aborted = () => new DOMException("scene stopped", "AbortError");
@@ -76,6 +78,9 @@ export function useScene(root: RefObject<HTMLElement | null>, script: (scene: Sc
       reset() {
         running.forEach((a) => a.cancel());
         running.clear();
+      },
+      hide(targets) {
+        targets.forEach((target) => scene.play(target, [{ opacity: 0 }, { opacity: 0 }], { duration: 1 }));
       },
       clear(targets) {
         running.forEach((a) => {

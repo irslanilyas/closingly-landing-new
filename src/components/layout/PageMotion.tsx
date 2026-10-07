@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 /**
@@ -8,8 +9,10 @@ import { useEffect } from "react";
  *   [data-motion]        gets data-paused while off screen, so loops stop costing frames
  *   [data-inview-play]   videos play only while on screen
  * Content below the fold is hidden only once this has run, so nothing depends on it to be seen.
+ * It runs again on every page the visitor moves to, so coming back to a page brings its videos back to life.
  */
 export function PageMotion() {
+  const path = usePathname();
   useEffect(() => {
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const observers: IntersectionObserver[] = [];
@@ -55,7 +58,7 @@ export function PageMotion() {
     document.querySelectorAll("[data-motion], video[data-inview-play]").forEach((el) => visibility.observe(el));
 
     return () => observers.forEach((o) => o.disconnect());
-  }, []);
+  }, [path]);
 
   return null;
 }

@@ -15,7 +15,7 @@ import styles from "./HeroVideo.module.css";
 type Phase = "idle" | "preview" | "opening" | "demo";
 /** "still" when the visitor prefers reduced motion or reduced data: no loop, a play button instead. */
 type Mode = "motion" | "still";
-type PlayerComponent = ComponentType<{ onPlaying: () => void }>;
+type PlayerComponent = ComponentType<{ autoPlay: boolean; onPlaying: () => void }>;
 
 export function HeroVideo() {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -30,6 +30,9 @@ export function HeroVideo() {
   }, []);
   const [mode, setMode] = useState<Mode>("motion");
   const [Player, setPlayer] = useState<PlayerComponent | null>(null);
+  // "armed": mounted hidden and buffering; "asked": mounted because the visitor pressed play first.
+  const [mount, setMount] = useState<"armed" | "asked" | null>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
 
   // The muted loop: requested only after the page has loaded, so it never
   // competes with the text, fonts and poster for the first paint.
@@ -77,11 +80,63 @@ export function HeroVideo() {
     loadDemoPlayer().catch(() => {});
   }, []);
 
+  // Once the page has loaded and the visitor starts using it with the hero on screen,
+  // the player mounts hidden and buffers the opening seconds, so play is instant.
+  // Never on data saver or a slow connection; then it loads on press, as before.
+  useEffect(() => {
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (connection?.saveData || /(^|-)(2g|3g)$/.test(connection?.effectiveType ?? "")) return;
+    const frame = frameRef.current!;
+    let inView = false;
+    let interacted = false;
+    let loaded = document.readyState === "complete";
+    const arm = () => {
+      if (!loaded || !inView || !interacted) return;
+      cleanup();
+      loadDemoPlayer()
+        .then((m) => {
+          setPlayer((current: PlayerComponent | null) => current ?? m.default);
+          setMount((current) => current ?? "armed");
+        })
+        .catch(() => {});
+    };
+    const onInteract = () => {
+      interacted = true;
+      arm();
+    };
+    const onLoad = () => {
+      loaded = true;
+      arm();
+    };
+    const io = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      arm();
+    });
+    const events = ["pointerdown", "pointermove", "touchstart", "scroll", "keydown"] as const;
+    const cleanup = () => {
+      io.disconnect();
+      events.forEach((type) => removeEventListener(type, onInteract));
+      removeEventListener("load", onLoad);
+    };
+    io.observe(frame);
+    events.forEach((type) => addEventListener(type, onInteract, { passive: true }));
+    if (!loaded) addEventListener("load", onLoad, { once: true });
+    return cleanup;
+  }, []);
+
   const openDemo = useCallback(() => {
     const from = phaseRef.current;
     if (from === "opening" || from === "demo") return;
     go("opening");
     track("video_start", { video_provider: "mux", video_title: DEMO.title });
+    // Already buffered: start it inside this click, so sound is allowed and it plays at once.
+    const video = playerRef.current?.querySelector("video");
+    if (video) {
+      video.muted = false;
+      video.play().catch(() => go("demo"));
+      return;
+    }
+    setMount("asked");
     loadDemoPlayer()
       .then((m) => setPlayer(() => m.default))
       .catch(() => go(from));
@@ -179,9 +234,9 @@ export function HeroVideo() {
         </button>
       )}
 
-      {Player && (
-        <div className={styles.player} data-demo="">
-          <Player onPlaying={onDemoPlaying} />
+      {Player && mount && (
+        <div ref={playerRef} className={styles.player} data-demo="" data-armed={phase === "demo" ? undefined : ""}>
+          <Player autoPlay={mount === "asked"} onPlaying={onDemoPlaying} />
         </div>
       )}
     </div>

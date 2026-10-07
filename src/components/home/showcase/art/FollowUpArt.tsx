@@ -31,9 +31,9 @@ async function story(scene: Scene) {
 
   const think = async (ms: number) => {
     clear([thinking]);
-    play(thinking, [{ opacity: 0, transform: "translateY(4px)" }, IN], { duration: 400 });
+    play(thinking, [{ opacity: 0, transform: "translateY(4px)" }, IN], { duration: 300 });
     await wait(ms);
-    await play(thinking, [IN, { opacity: 0, transform: "translateY(-4px)" }], { duration: 300, easing: EASE.inOut });
+    await play(thinking, [IN, { opacity: 0, transform: "translateY(-4px)" }], { duration: 220, easing: EASE.inOut });
   };
 
   const write = async (i: number) => {
@@ -43,13 +43,13 @@ async function story(scene: Scene) {
     play(draft, [IN, IN], { duration: 1 });
     play(counts[1 - i], [OUT, OUT], { duration: 1 });
     play(counts[i], [{ opacity: 0, transform: "translateY(4px)" }, IN], { duration: 500 });
-    await revealWords(scene, words, { gap: 42 });
+    await revealWords(scene, words, { gap: 24 });
   };
 
   const erase = (i: number) => {
     clear([drafts[i]]);
     return play(drafts[i], [{ opacity: 1, filter: "blur(0)" }, { opacity: 0, filter: "blur(3px)" }], {
-      duration: 450,
+      duration: 320,
       easing: EASE.inOut,
     });
   };
@@ -64,31 +64,31 @@ async function story(scene: Scene) {
         { opacity: 1, translate: "46px 34px", scale: "1", offset: 0.45 },
         { opacity: 1, translate: "0 0", scale: "1" },
       ],
-      { duration: 1300, easing: EASE.inOut },
+      { duration: 850, easing: EASE.inOut },
     );
-    await wait(180);
+    await wait(90);
     play(button, [{ scale: "1" }, { scale: "0.965" }, { scale: "1" }], { duration: 380, easing: EASE.inOut, fill: "none" });
     play(ripple, [{ opacity: 0.55, transform: "scale(0)" }, { opacity: 0, transform: "scale(1)" }], { duration: 700, fill: "none" });
     await play(cursor, [{ opacity: 1, translate: "0 0", scale: "1" }, { opacity: 1, translate: "0 0", scale: "0.86" }, { opacity: 1, translate: "0 0", scale: "1" }], {
       duration: 300,
       easing: EASE.inOut,
     });
-    play(cursor, [{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "34px 46px" }], { duration: 900, delay: 200, easing: EASE.inOut });
+    play(cursor, [{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "34px 46px" }], { duration: 600, delay: 120, easing: EASE.inOut });
   };
 
   // 1. The signal arrives with the card.
-  play(card, [{ opacity: 0, transform: "translateY(20px) scale(0.985)" }, IN], { duration: 1100, delay: 100 });
-  play(icon, [{ opacity: 0, transform: "rotate(-70deg) scale(0.8)" }, IN], { duration: 1100, delay: 300 });
-  play(kicker, [OUT, { opacity: 1 }], { duration: 700, delay: 650 });
+  play(card, [{ opacity: 0, transform: "translateY(20px) scale(0.985)" }, IN], { duration: 800, delay: 80 });
+  play(icon, [{ opacity: 0, transform: "rotate(-70deg) scale(0.8)" }, IN], { duration: 800, delay: 200 });
+  play(kicker, [OUT, { opacity: 1 }], { duration: 500, delay: 400 });
   play(drafts[0], [OUT, OUT], { duration: 1 });
-  play(actions, [{ opacity: 0, transform: "translateY(10px)" }, IN], { duration: 800, delay: 900 });
-  await wait(900);
+  play(actions, [{ opacity: 0, transform: "translateY(10px)" }, IN], { duration: 600, delay: 550 });
+  await wait(550);
 
   // 2. Then the two variations take turns, for as long as the panel is open.
   for (let i = 0; ; i = 1 - i) {
-    await think(1300);
+    await think(750);
     await write(i);
-    await wait(2200);
+    await wait(1300);
     await press();
     await erase(i);
   }

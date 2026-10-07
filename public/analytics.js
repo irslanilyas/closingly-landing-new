@@ -105,18 +105,21 @@
    const style = document.createElement('style');
    style.id = 'cookie-note-style';
    style.textContent = `
-.cookie-note{position:fixed;left:16px;bottom:16px;z-index:60;width:min(400px,calc(100% - 32px));padding:18px 18px 16px;border:1px solid #ececea;border-radius:14px;background:#fff;box-shadow:0 18px 44px -18px rgba(35,37,34,.32),0 4px 12px -6px rgba(35,37,34,.12);color:#232522;font-family:var(--font-sans),system-ui,sans-serif;font-size:14px;line-height:1.5;letter-spacing:-.14px;animation:cookie-note-in .45s cubic-bezier(.16,1,.3,1) both}
-.cookie-note p{margin:0}
+.cookie-note{position:fixed;left:16px;bottom:16px;z-index:60;width:min(380px,calc(100% - 32px));padding:18px;border:1px solid #ececea;border-radius:16px;background:#fff;box-shadow:0 22px 50px -20px rgba(35,37,34,.35),0 4px 12px -6px rgba(35,37,34,.12);color:#232522;font-family:var(--font-sans),system-ui,sans-serif;font-size:14px;line-height:1.5;letter-spacing:-.14px;animation:cookie-note-in .5s cubic-bezier(.16,1,.3,1) both}
+.cookie-note-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.cookie-note-head img{width:28px;height:28px;flex:none}
+.cookie-note-head b{font-size:15px;font-weight:500;letter-spacing:-.3px}
+.cookie-note p{margin:0;color:#5f6459}
 .cookie-note a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 .cookie-note a:hover{color:#ff4601}
 .cookie-note-actions{display:flex;gap:8px;margin-top:14px}
-.cookie-note button{flex:1;min-height:40px;padding:0 14px;border-radius:9px;font:500 14px/1 var(--font-sans),system-ui,sans-serif;letter-spacing:-.28px;cursor:pointer;transition:background-color .2s,border-color .2s}
-.cookie-note [data-consent="denied"]{border:1px solid #e3e3de;background:#fff;color:#232522}
-.cookie-note [data-consent="denied"]:hover{border-color:#cfcfc8;background:#fafaf7}
-.cookie-note [data-consent="granted"]{border:1px solid #232522;background:#232522;color:#fff}
-.cookie-note [data-consent="granted"]:hover{background:#000}
+.cookie-note button{min-height:40px;padding:0 16px;border-radius:10px;font:500 14px/1 var(--font-sans),system-ui,sans-serif;letter-spacing:-.28px;cursor:pointer;transition:background-color .2s,border-color .2s,filter .2s}
+.cookie-note [data-consent="denied"]{border:1px solid #e3e3de;background:#fff;color:#5f6459}
+.cookie-note [data-consent="denied"]:hover{border-color:#cfcfc8;color:#232522}
+.cookie-note [data-consent="granted"]{flex:1;border:1px solid #ff4601;background:#ff4601;color:#fff;box-shadow:inset 0 0 8px rgba(165,45,0,.35)}
+.cookie-note [data-consent="granted"]:hover{filter:brightness(1.05)}
 .cookie-note button:focus-visible{outline:2px solid #232522;outline-offset:3px}
-@keyframes cookie-note-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes cookie-note-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){.cookie-note{animation:none}}
 @media(max-width:767px){.cookie-note{left:12px;bottom:12px;width:calc(100% - 24px);font-size:13px}}`;
    document.head.append(style);
@@ -124,7 +127,7 @@
   notice = document.createElement('section');
   notice.className = 'cookie-note';
   notice.setAttribute('aria-label', 'Cookie choice');
-  notice.innerHTML = `<p>We use ${CLARITY_ID ? 'Google Analytics and Microsoft Clarity' : 'Google Analytics'} to see how people find and use this site. No ads, and nothing that follows you to other sites. <a href="/privacy#analytics">Privacy Policy</a></p><div class="cookie-note-actions"><button type="button" data-consent="denied">Decline</button><button type="button" data-consent="granted">Accept</button></div>`;
+  notice.innerHTML = '<div class="cookie-note-head"><img src="/brand/mark.svg" alt=""><b>Help us make Closingly better</b></div><p>A few cookies show us which parts of this site help people and which get in the way, so it gets better every week. No ads, and nothing that follows you around the web. <a href="/privacy#analytics">Privacy Policy</a></p><div class="cookie-note-actions"><button type="button" data-consent="denied">No thanks</button><button type="button" data-consent="granted">Sure, count me in</button></div>';
   notice.addEventListener('click', event => {
    const button = event.target.closest('[data-consent]');
    if (button) decide(button.dataset.consent);

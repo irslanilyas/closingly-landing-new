@@ -22,7 +22,7 @@ export function Hero() {
             <span className={styles.dot} aria-hidden="true" />
             Founding Beta Cohort
             <span className={styles.divider} aria-hidden="true" />
-            200 Free Spots
+            120 Free Spots Left
             <span className={styles.arrow} aria-hidden="true">
               ↗
             </span>

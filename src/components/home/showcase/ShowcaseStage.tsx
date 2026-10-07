@@ -165,6 +165,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
       delete host.dataset.measuring;
       const stageHeight = stage.getBoundingClientRect().height;
       root.style.height = `${(stageHeight + (enabled ? step * panels.length : 0)) / scale}px`;
+      root.style.setProperty("--step", `${step / scale}px`);
       geo.current = { step, start: root.getBoundingClientRect().top + scrollY, enabled };
       placeBars(activeRef.current, false);
       queue();
@@ -296,6 +297,12 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
             </section>
           ))}
         </div>
+      </div>
+      {/* On touch screens each feature is a stop the page always snaps to, so one swipe moves one card. */}
+      <div className={styles.snaps} aria-hidden="true">
+        {features.map((f, i) => (
+          <i key={f.id} style={{ "--i": i } as React.CSSProperties} />
+        ))}
       </div>
     </div>
   );

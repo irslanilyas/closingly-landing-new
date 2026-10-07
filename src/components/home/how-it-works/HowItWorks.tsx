@@ -2,7 +2,7 @@ import { Mark } from "@/components/brand/Logo";
 import { CtaButton } from "@/components/ui/CtaButton";
 import { Picture } from "@/components/ui/Picture";
 import section from "../section.module.css";
-import { PointerArt } from "./PointerArt";
+import { ArtControl } from "./ArtControl";
 import s from "./HowItWorks.module.css";
 
 // The voice spectrum: three bar heights in Atif's order, each bar on its own tempo.
@@ -196,7 +196,7 @@ export function HowItWorks() {
         </article>
       </div>
 
-      <PointerArt />
+      <ArtControl />
       <div data-reveal="">
         <CtaButton href="/beta">
           Get Free Beta Access

@@ -43,13 +43,49 @@
   background: rgba(0, 0, 0, 0.055);
 }
 
+/* A live dot: a soft glow, and two rings that keep radiating out of it. */
 .dot {
+  position: relative;
   flex: none;
-  width: 6px;
-  height: 6px;
-  border-radius: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
   background: var(--brand);
-  box-shadow: 0 0 0 4.514px rgba(255, 70, 1, 0.07);
+  box-shadow:
+    0 0 0 3px rgba(255, 70, 1, 0.12),
+    0 0 10px 2px rgba(255, 70, 1, 0.45);
+}
+
+.dot::before,
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid var(--brand);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot::before,
+  .dot::after {
+    animation: ring 2.4s var(--ease-out) infinite;
+  }
+
+  .dot::after {
+    animation-delay: 1.2s;
+  }
+}
+
+@keyframes ring {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 3.6;
+  }
 }
 
 .divider {

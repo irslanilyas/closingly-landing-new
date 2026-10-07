@@ -24,6 +24,13 @@
   box-sizing: border-box;
 }
 
+/* The feature showcase places snap stops on touch screens (Showcase.module.css). */
+@media (max-width: 1000px) and (pointer: coarse) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+}
+
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;

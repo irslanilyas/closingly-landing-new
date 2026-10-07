@@ -15,7 +15,9 @@ const SETTLE = 0.02;
 type Spring = { x: number; y: number };
 
 /**
- * Two of the "How it works" illustrations answer the mouse:
+ * Sizes every "How it works" illustration to its card exactly (CSS can only
+ * approximate the ratio on some Safari versions), and makes two of them answer
+ * the mouse:
  *   [data-tilt]  the new deal tilts toward the pointer under a moving highlight,
  *                and the room behind it shifts the other way
  *   [data-drag]  the deal being moved follows the pointer like a held card,
@@ -23,7 +25,17 @@ type Spring = { x: number; y: number };
  * Only with a real hover pointer and motion allowed; transforms and opacity
  * only, one animation-frame loop per card that stops as soon as it settles.
  */
-export function PointerArt() {
+export function ArtControl() {
+  // The art is drawn 419px wide and scaled as one layer to its card's width.
+  useEffect(() => {
+    const arts = [...document.querySelectorAll<HTMLElement>("#how-it-works [role=img]")];
+    const fit = new ResizeObserver(() =>
+      arts.forEach((art) => art.style.setProperty("--fit", String(Math.min(1, art.parentElement!.clientWidth / STAGE_WIDTH)))),
+    );
+    arts.forEach((art) => fit.observe(art.parentElement!));
+    return () => fit.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;

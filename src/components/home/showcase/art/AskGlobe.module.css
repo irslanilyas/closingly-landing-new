@@ -1,15 +1,37 @@
-/* The face keeps the header's 46px slot, so the card's layout never moves. It is
-   drawn in the brand colour on the header's own light ground. */
+/* The globe keeps the header's 46px slot and draws a slightly smaller disc in it,
+   so the card's layout never moves. The disc is flat: one brand colour, no
+   shading, no highlight. */
 .globe {
+  --g: 44px;
   position: relative;
   flex: none;
   width: 45.912px;
   height: 45.473px;
 }
 
-.pop {
+/* The soft light behind it, as in the app. */
+.halo {
   position: absolute;
-  inset: 0;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--g) * 2.1);
+  height: calc(var(--g) * 2.1);
+  margin: calc(var(--g) * -1.05) 0 0 calc(var(--g) * -1.05);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 70, 1, 0.26), rgba(255, 70, 1, 0.08) 58%, transparent);
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--g);
+  height: var(--g);
+  margin: calc(var(--g) / -2) 0 0 calc(var(--g) / -2);
+  border-radius: 50%;
+  background: var(--brand);
+  overflow: hidden;
 }
 
 .face {
@@ -20,6 +42,7 @@
   height: 0;
 }
 
+/* Tall white pill eyes. */
 .eye {
   position: absolute;
   top: 0;
@@ -43,7 +66,7 @@
   position: absolute;
   inset: 0;
   border-radius: 2.5px;
-  background: var(--brand);
+  background: #fff;
   transition:
     opacity 0.2s,
     scale 0.25s var(--ease-out);
@@ -58,7 +81,7 @@
   max-width: none;
   height: 6px;
   fill: none;
-  stroke: var(--brand);
+  stroke: #fff;
   stroke-width: 2;
   stroke-linecap: round;
   opacity: 0;
@@ -78,7 +101,7 @@
 
 .mouth > * {
   fill: none;
-  stroke: var(--brand);
+  stroke: #fff;
   stroke-width: 1.8;
   stroke-linecap: round;
   transition: opacity 0.18s;

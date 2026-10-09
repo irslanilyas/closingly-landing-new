@@ -5,9 +5,9 @@ import { PlayingContext } from "./scene";
 import s from "./AskGlobe.module.css";
 
 /**
- * Ask Closingly's face: two eyes and a smile, nothing else.
+ * Ask Closingly's globe: a flat orange disc with a white face.
  *
- *   follows   the eyes and mouth lean toward the pointer
+ *   follows   the face leans toward the pointer
  *   hover     the eyes close into happy arcs (CSS :hover)
  *   sad       the pointer left through the top of the page, or the tab was hidden;
  *             it droops until the pointer comes back
@@ -29,7 +29,7 @@ export function AskGlobe() {
     const draw = () => {
       look.x += (target.x - look.x) * 0.2;
       look.y += (target.y - look.y) * 0.2;
-      face.style.transform = `translate(${(look.x * 4.5).toFixed(2)}px, ${(look.y * 3.5).toFixed(2)}px)`;
+      face.style.transform = `translate(${(look.x * 5).toFixed(2)}px, ${(look.y * 4).toFixed(2)}px)`;
       frame = Math.abs(target.x - look.x) + Math.abs(target.y - look.y) > 0.004 ? requestAnimationFrame(draw) : 0;
     };
 
@@ -67,7 +67,8 @@ export function AskGlobe() {
 
   return (
     <span ref={root} className={s.globe} data-mood="idle" aria-hidden="true">
-      <span className={s.pop} data-part="orb">
+      <span className={s.halo} data-part="halo" />
+      <span className={s.orb} data-part="orb">
         <span className={s.face} data-face="">
           {[0, 1].map((i) => (
             <span key={i} className={s.eye}>

@@ -1,39 +1,106 @@
-/* The globe keeps the header's 46px slot and draws a slightly smaller disc in it,
-   so the card's layout never moves. The disc is flat: one brand colour, no
-   shading, no highlight. */
+/* The globe keeps the header's 46px slot and draws a 50px orb over it, so the
+   card's layout never moves. */
 .globe {
-  --g: 44px;
+  --g: 50px;
   position: relative;
   flex: none;
   width: 45.912px;
   height: 45.473px;
 }
 
-/* The soft light behind it, as in the app. */
-.halo {
+/* ── The light and dust behind it, as in the app ── */
+.halo,
+.field {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--g) * 2.1);
-  height: calc(var(--g) * 2.1);
-  margin: calc(var(--g) * -1.05) 0 0 calc(var(--g) * -1.05);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 70, 1, 0.26), rgba(255, 70, 1, 0.08) 58%, transparent);
   pointer-events: none;
 }
 
-.orb {
+.halo {
+  width: calc(var(--g) * 2.1);
+  height: calc(var(--g) * 2.1);
+  margin: calc(var(--g) * -1.05) 0 0 calc(var(--g) * -1.05);
+}
+
+.halo > span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 70, 1, 0.3), rgba(255, 70, 1, 0.1) 58%, transparent);
+}
+
+.field {
+  width: calc(var(--g) * 1.9);
+  height: calc(var(--g) * 1.9);
+  margin: calc(var(--g) * -0.95) 0 0 calc(var(--g) * -0.95);
+  transform: scaleY(0.46);
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+}
+
+.ring i {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #ff4601 0 30%, rgba(255, 70, 1, 0.35) 50%, transparent);
+  opacity: 0.35;
+  translate: -50% -50%;
+}
+
+/* ── The orb ── */
+.body {
   position: absolute;
   left: 50%;
   top: 50%;
   width: var(--g);
   height: var(--g);
   margin: calc(var(--g) / -2) 0 0 calc(var(--g) / -2);
-  border-radius: 50%;
-  background: var(--brand);
-  overflow: hidden;
+  filter: drop-shadow(0 5px 7px rgba(150, 40, 0, 0.28));
 }
 
+.lean {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.texture {
+  position: absolute;
+  inset: -10%;
+}
+
+.texture img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Light from the top left: the far side darkens, a rim of light on the edge. */
+.shade {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, transparent 38%, rgba(140, 30, 0, 0.22) 68%, rgba(90, 18, 0, 0.5) 100%);
+  box-shadow:
+    inset 0 -3px 6px rgba(80, 15, 0, 0.35),
+    inset 0 2px 3px rgba(255, 255, 255, 0.45);
+}
+
+.spec {
+  position: absolute;
+  left: 18%;
+  top: 11%;
+  width: 34%;
+  height: 22%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0));
+  rotate: -28deg;
+}
+
+/* ── The face: all white, tall pill eyes and a smile ── */
 .face {
   position: absolute;
   left: 50%;
@@ -42,13 +109,12 @@
   height: 0;
 }
 
-/* Tall white pill eyes. */
 .eye {
   position: absolute;
   top: 0;
-  width: 5px;
+  width: 5.2px;
   height: 10px;
-  margin-left: -2.5px;
+  margin-left: -2.6px;
   transition:
     rotate 0.3s var(--ease-out),
     translate 0.3s var(--ease-out);
@@ -65,8 +131,9 @@
 .pill {
   position: absolute;
   inset: 0;
-  border-radius: 2.5px;
+  border-radius: 2.6px;
   background: #fff;
+  box-shadow: 0 0.6px 1.6px rgba(110, 25, 0, 0.4);
   transition:
     opacity 0.2s,
     scale 0.25s var(--ease-out);
@@ -75,8 +142,8 @@
 /* Hover: the eyes close into happy arcs. */
 .arc {
   position: absolute;
-  left: -2.5px;
-  top: 1.5px;
+  left: -2.4px;
+  top: 1.2px;
   width: 10px;
   max-width: none;
   height: 6px;
@@ -90,11 +157,11 @@
 
 .mouth {
   position: absolute;
-  left: -7px;
+  left: -7.5px;
   top: 13px;
-  width: 14px;
+  width: 15px;
   max-width: none;
-  height: 8px;
+  height: 8.6px;
   overflow: visible;
   transition: scale 0.25s var(--ease-out);
 }
@@ -113,12 +180,12 @@
 
 .tear {
   position: absolute;
-  left: -9px;
-  top: 10px;
-  width: 3px;
-  height: 4.2px;
+  left: -9.4px;
+  top: 10.5px;
+  width: 3.2px;
+  height: 4.4px;
   border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
-  background: #8fd3ff;
+  background: #fff;
   opacity: 0;
   transition: opacity 0.25s;
 }
@@ -135,7 +202,7 @@
   scale: 1.15;
 }
 
-/* Sad: droopy eyes, a frown and a tear. */
+/* Sad: droopy eyes, a frown and a white tear. */
 .globe[data-mood="sad"] .eye {
   translate: 0 1.5px;
 }
@@ -159,4 +226,62 @@
 .globe[data-mood="sad"] .sad,
 .globe[data-mood="sad"] .tear {
   opacity: 1;
+}
+
+/* Idle life, only while the card is on screen: the light breathes, the dust
+   turns and twinkles, the orb floats. */
+@media (prefers-reduced-motion: no-preference) {
+  :is([data-active], [data-leaving]) .halo > span {
+    animation: breathe 7s var(--ease-in-out) infinite;
+  }
+
+  :is([data-active], [data-leaving]) .ring {
+    animation: turn 38s linear infinite;
+  }
+
+  :is([data-active], [data-leaving]) .ring i {
+    animation: twinkle 4.6s var(--ease-in-out) var(--delay) infinite;
+  }
+
+  :is([data-active], [data-leaving]) .body {
+    animation: float 4.2s var(--ease-in-out) infinite;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.75;
+    scale: 1;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+
+@keyframes turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -2.5px;
+  }
 }

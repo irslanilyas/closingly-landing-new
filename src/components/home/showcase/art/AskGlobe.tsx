@@ -1,11 +1,12 @@
 "use client";
 
 import { useContext, useEffect, useRef } from "react";
+import { Picture } from "@/components/ui/Picture";
 import { PlayingContext } from "./scene";
 import s from "./AskGlobe.module.css";
 
 /**
- * Ask Closingly's globe: a flat orange disc with a white face.
+ * Ask Closingly's globe, as in the app, with a small white face.
  *
  *   follows   the face leans toward the pointer
  *   hover     the eyes close into happy arcs (CSS :hover)
@@ -14,6 +15,12 @@ import s from "./AskGlobe.module.css";
  *
  * One animation-frame loop eases the lean and stops as soon as it settles.
  */
+const DUST = Array.from({ length: 9 }, (_, i) => {
+  const angle = (i / 9) * Math.PI * 2 + (i % 3) * 0.35;
+  const radius = 44 + (i % 3) * 6;
+  return { left: 50 + radius * Math.cos(angle), top: 50 + radius * Math.sin(angle), size: i % 4 === 0 ? 5 : 3, delay: -i * 0.7 };
+});
+
 export function AskGlobe() {
   const root = useRef<HTMLSpanElement>(null);
   const playing = useContext(PlayingContext);
@@ -67,22 +74,49 @@ export function AskGlobe() {
 
   return (
     <span ref={root} className={s.globe} data-mood="idle" aria-hidden="true">
-      <span className={s.halo} data-part="halo" />
-      <span className={s.orb} data-part="orb">
-        <span className={s.face} data-face="">
-          {[0, 1].map((i) => (
-            <span key={i} className={s.eye}>
-              <span className={s.pill} />
-              <svg className={s.arc} viewBox="0 0 10 6">
-                <path d="M1.2 5C2.4 1.6 7.6 1.6 8.8 5" />
-              </svg>
-            </span>
+      <span className={s.field}>
+        <span className={s.ring}>
+          {DUST.map((d, i) => (
+            <i
+              key={i}
+              style={
+                {
+                  left: `${d.left}%`,
+                  top: `${d.top}%`,
+                  width: d.size,
+                  height: d.size,
+                  "--delay": `${d.delay}s`,
+                } as React.CSSProperties
+              }
+            />
           ))}
-          <i className={s.tear} />
-          <svg className={s.mouth} viewBox="0 0 14 8">
-            <path className={s.smile} d="M3 2.4c1.8 2.3 6.2 2.3 8 0" />
-            <path className={s.sad} d="M4 6c1.7-2.1 4.3-2.1 6 0" />
-          </svg>
+        </span>
+      </span>
+      <span className={s.halo} data-part="halo">
+        <span />
+      </span>
+      <span className={s.body} data-part="orb">
+        <span className={s.lean}>
+          <span className={s.texture}>
+            <Picture name="askAvatar" sizes="58px" />
+          </span>
+          <span className={s.shade} />
+          <span className={s.spec} />
+          <span className={s.face} data-face="">
+            {[0, 1].map((i) => (
+              <span key={i} className={s.eye}>
+                <span className={s.pill} />
+                <svg className={s.arc} viewBox="0 0 10 6">
+                  <path d="M1.2 5C2.4 1.6 7.6 1.6 8.8 5" />
+                </svg>
+              </span>
+            ))}
+            <i className={s.tear} />
+            <svg className={s.mouth} viewBox="0 0 14 8">
+              <path className={s.smile} d="M3 2.4c1.8 2.3 6.2 2.3 8 0" />
+              <path className={s.sad} d="M4 6c1.7-2.1 4.3-2.1 6 0" />
+            </svg>
+          </span>
         </span>
       </span>
     </span>

@@ -41,7 +41,6 @@ const jobs = {
   // Client logos, cropped from one sheet of brand marks.
   logoAcme: { src: "client-logos.webp", crop: [388.6, 59.1, 120.2, 136.2], widths: [110] },
   logoAster: { src: "client-logos.webp", crop: [690.2, 269.9, 102.4, 139.3], widths: [96] },
-  askAvatar: { src: "ask-avatar.webp", widths: [112] },
   // How it works: the card photos sit behind frosted glass (blur 4.5px, 20% white).
   howCall: { src: "how-call.webp", widths: [420, 640], box: [419, 487], blur: 4.5, inside: true, wash: 0.2 },
   howDeal: { src: "how-deal.webp", widths: [420, 640], box: [419, 487], blur: 4.5, inside: true, wash: 0.2 },

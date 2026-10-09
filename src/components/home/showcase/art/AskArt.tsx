@@ -34,7 +34,7 @@ const SPRING = "cubic-bezier(0.34, 1.4, 0.64, 1)";
 /** A question about a deal, answered point by point from that deal's own sources. */
 async function story(scene: Scene) {
   const { part, parts, play, hide } = scene;
-  const [panel, orb, halo, question, head, intro] = [part("panel"), part("orb"), part("halo"), part("question"), part("head"), part("intro")];
+  const [panel, orb, question, head, intro] = [part("panel"), part("orb"), part("question"), part("head"), part("intro")];
 
   // The sourced points wait for the intro line; they never show before it is written.
   hide(parts("point"));
@@ -42,8 +42,7 @@ async function story(scene: Scene) {
     duration: 1100,
     delay: 100,
   });
-  // The globe grows into place with its light.
-  play(halo, [{ opacity: 0, transform: "scale(0.4)" }, IN], { duration: 1400, delay: 350 });
+  // The face pops into place.
   play(orb, [{ opacity: 0, transform: "scale(0.35)" }, IN], { duration: 1100, delay: 400, easing: SPRING });
   play(question, [{ opacity: 0, transform: "translateX(18px)" }, IN], { duration: 900, delay: 900 });
   play(head, [{ opacity: 0, transform: "translateY(6px)" }, IN], { duration: 800, delay: 1500 });

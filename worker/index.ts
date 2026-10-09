@@ -2,8 +2,9 @@
 // /api/* (see run_worker_first in wrangler.jsonc); every other request is served
 // straight from the asset store.
 import { CALLS, COUNTRY_CODES, ROLES } from "../src/components/beta/countries";
+import { sendWelcome, type WelcomeEnv } from "./welcome";
 
-interface Env {
+interface Env extends WelcomeEnv {
   ASSETS: Fetcher;
   SUPABASE_URL: string;
   SUPABASE_PUBLISHABLE_KEY: string;
@@ -42,7 +43,7 @@ async function verifyTurnstile(token: string, ip: string, secret: string, hostna
   return out.success && out.action === "apply" && (out.hostname === hostname || hostname.endsWith(".workers.dev"));
 }
 
-async function apply(request: Request, env: Env, url: URL): Promise<Response> {
+async function apply(request: Request, env: Env, url: URL, ctx: ExecutionContext): Promise<Response> {
   if (request.method !== "POST") return json(405, { error: "method_not_allowed" });
   // Same-origin only: the form posts from this site and nowhere else.
   if (request.headers.get("Origin") !== url.origin) return json(403, { error: "forbidden" });
@@ -106,13 +107,17 @@ async function apply(request: Request, env: Env, url: URL): Promise<Response> {
     console.error("apply_for_beta failed", res.status, await res.text());
     return json(502, { error: "upstream" });
   }
+  // The function answers true for a new application and false for a repeat. An empty
+  // body (the older function, which returned nothing) counts as a repeat: no email.
+  const isNew = (await res.json().catch(() => null)) === true;
+  if (isNew) ctx.waitUntil(sendWelcome(env, name, email));
   return json(200, { ok: true });
 }
 
 export default {
-  async fetch(request, env): Promise<Response> {
+  async fetch(request, env, ctx): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname === "/api/apply") return apply(request, env, url);
+    if (url.pathname === "/api/apply") return apply(request, env, url, ctx);
     if (url.pathname.startsWith("/api/")) return json(404, { error: "not_found" });
     return env.ASSETS.fetch(request);
   },

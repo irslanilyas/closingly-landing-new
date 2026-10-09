@@ -47,6 +47,13 @@ npx wrangler secret put TURNSTILE_SECRET                 # production
 The public Turnstile site key is in `src/lib/site.ts`; the widget allows
 closingly.app and the preview hostname.
 
+The welcome email to new beta applicants goes through Resend (`worker/welcome.ts`),
+from admin@closingly.app. Its key is a Resend "Sending access" key limited to
+closingly.app, set the same way (`npx wrangler secret put RESEND_API_KEY`). Without
+the key the signup still works and no email is sent. It is sent only for a new
+application: the `apply_for_beta` function returns true for those and false for a
+repeat, and the Worker treats an empty answer as a repeat.
+
 ```bash
 npm run deploy:preview   # closingly-landing-preview on workers.dev, noindex
 npm run deploy           # closingly.app

@@ -96,14 +96,6 @@ export const IMAGES = {
     "height": 131,
     "bleed": 0
   },
-  "askAvatar": {
-    "avif": "/img/askAvatar.626027168f-112.avif 112w",
-    "webp": "/img/askAvatar.626027168f-112.webp 112w",
-    "src": "/img/askAvatar.626027168f-112.webp",
-    "width": 112,
-    "height": 112,
-    "bleed": 0
-  },
   "howCall": {
     "avif": "/img/howCall.fc9da82c79-420.avif 420w, /img/howCall.d2589efcab-640.avif 640w",
     "webp": "/img/howCall.fc9da82c79-420.webp 420w, /img/howCall.d2589efcab-640.webp 640w",

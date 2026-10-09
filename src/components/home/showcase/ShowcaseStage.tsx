@@ -3,6 +3,7 @@
 import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { track } from "@/lib/analytics";
 import { PlayingContext } from "./art/scene";
+import { installSwipeGate } from "./swipeGate";
 import styles from "./Showcase.module.css";
 
 export type Feature = {
@@ -28,6 +29,7 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const snapsRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
   const panelsRef = useRef<HTMLDivElement>(null);
@@ -218,6 +220,9 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
     };
   }, [select, placeBars]);
 
+  // On touch screens a hard swipe moves one feature, not the whole showcase.
+  useLayoutEffect(() => installSwipeGate(snapsRef.current!), []);
+
   // A tab glides the page to that feature's own stretch of the showcase, so the
   // panel on screen and the scroll position never disagree.
   const jump = (index: number, focus = false) => {
@@ -298,8 +303,8 @@ export function ShowcaseStage({ heading, features }: { heading: ReactNode; featu
           ))}
         </div>
       </div>
-      {/* On touch screens each feature is a stop the page always snaps to, so one swipe moves one card. */}
-      <div className={styles.snaps} aria-hidden="true">
+      {/* On touch screens each feature is a stop the page snaps to; swipeGate.ts holds a hard swipe to one stop. */}
+      <div ref={snapsRef} className={styles.snaps} aria-hidden="true">
         {features.map((f, i) => (
           <i key={f.id} style={{ "--i": i } as React.CSSProperties} />
         ))}

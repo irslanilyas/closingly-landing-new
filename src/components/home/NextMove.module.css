@@ -79,7 +79,7 @@
 @media (max-width: 767px) {
   .section {
     min-height: 540px;
-    padding: 48px 20px 160px;
+    padding: 48px 20px 256px;
   }
 
   .content {

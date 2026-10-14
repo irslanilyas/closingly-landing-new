@@ -30,6 +30,30 @@
   mask-image: linear-gradient(to bottom, transparent, #000 60%);
 }
 
+.left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* The badge sits at 36px tall, a quiet stamp beside the copyright. */
+.footer a.badge {
+  flex: none;
+  border-radius: 8px;
+  transition: translate 0.2s var(--ease-out);
+}
+
+.footer a.badge:hover {
+  text-decoration: none;
+  translate: 0 -1px;
+}
+
+.badge img {
+  display: block;
+  width: auto;
+  height: 36px;
+}
+
 .footer nav {
   display: flex;
   align-items: center;
@@ -55,13 +79,13 @@
   border-radius: 2px;
 }
 
-@media (max-width: 767px) {
+/* Badge, copyright and six links stop fitting on one line below ~1200px. */
+@media (max-width: 1199px) {
   .footer {
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    padding: 16px 20px;
-    font-size: 12px;
+    padding: 16px 24px;
     text-align: center;
   }
 
@@ -69,5 +93,17 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 0 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer {
+    padding: 16px 20px;
+    font-size: 12px;
+  }
+
+  .left {
+    flex-direction: column;
+    gap: 8px;
   }
 }

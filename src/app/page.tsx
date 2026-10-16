@@ -31,6 +31,7 @@ const jsonLd = {
       url: `${SITE.url}/`,
       logo: `${SITE.url}/apple-touch-icon.png`,
       email: SITE.email,
+      sameAs: [SITE.linkedin],
       areaServed: "Worldwide",
     },
     {

@@ -18,11 +18,11 @@ export function Hero() {
     <section id="hero" className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.content}>
         <div className={styles.copy}>
-          <a className={`${styles.pill} ${motion.riseIn}`} href="#founding-beta">
+          <a className={styles.pill} href="#founding-beta">
             <span className={styles.dot} aria-hidden="true" />
             Founding Beta Cohort
             <span className={styles.divider} aria-hidden="true" />
-            170 Free Spots Left
+            <strong className={styles.count}>Only 49 Free Spots Left</strong>
             <span className={styles.arrow} aria-hidden="true">
               ↗
             </span>
